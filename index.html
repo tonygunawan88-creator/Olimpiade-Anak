@@ -50,8 +50,8 @@
 <div class="card hidden" id="menu-anak">
   <h1>🏆 Latihan Olimpiade 🏆</h1>
   <p>Siapakah yang akan belajar saat ini?</p>
-  <button class="btn btn-tk" onclick="pilihAnak('TK', 'Zio')">🧸 ZIO (Level TK)</button>
-  <button class="btn btn-sd" onclick="pilihAnak('SD', 'Eca')">🚀 ECA (SD Kelas 1-2)</button>
+  <button class="btn btn-tk" onclick="pilihAnak('TK', 'Zio')">🐯 ZIO (Level TK)</button>
+  <button class="btn btn-sd" onclick="pilihAnak('SD', 'Eca')">🐔 ECA (SD Kelas 1-2)</button>
 </div>
 
 <div class="card hidden" id="menu-mapel">
@@ -131,7 +131,7 @@ const DB = {
   },
    SD: {
         MTK: {
-      "Paket 1 - Olimpiade Matematika": [
+      "Paket 1 - Bermain Matematika": [
         {t:'pg', q:'1. Hasil dari 45 + 23 - 12 adalah ....', o:['50','56','66','68'], j:1, b:'Hitung dari kiri ke kanan: 45 + 23 = 68, lalu 68 - 12 = 56.'},
         {t:'pg', q:'2. Adi memiliki 82 kelereng. Budi memiliki kelereng 15 lebih sedikit dari Adi. Berapa banyak kelereng Budi?', o:['67','77','87','97'], j:0, b:'82 - 15 = 67 kelereng.'},
         {t:'pg', q:'3. Perhatikan pola bilangan berikut: 3, 6, 9, 12, A, 18. Nilai dari bilangan A yang tepat adalah ....', o:['13','14','15','16'], j:2, b:'Pola melompat +3 setiap langkahnya. 12 + 3 = 15.'},
@@ -161,7 +161,7 @@ const DB = {
     },
     ING: { "Paket 1": [{t:'pg', q:'Today is Monday. Tomorrow is ...', o:['Sunday','Tuesday','Friday'], j:1, b:'Setelah Senin (Monday) adalah Selasa (Tuesday).'}] },
     IPA: {
-      "Paket 1 - OMNAS 16": [
+      "Paket 1 - Bermain Sains": [
         {t:'pg', q:'1. Ketika kita mencium aroma bunga, bagian tubuh yang digunakan adalah ....', o:['Mata','Hidung','Telinga','Lidah'], j:1, b:'Hidung adalah indra penciuman.'},
         {t:'pg', q:'2. Rina melihat warna pelangi setelah hujan. Indra yang digunakan Rina adalah ....', o:['Peraba','Pengecap','Penglihatan','Pendengaran'], j:2, b:'Mata adalah indra penglihatan.'},
         {t:'pg', q:'3. Bagian tubuh yang membantu kita merasakan rasa makanan adalah ....', o:['Kulit','Lidah','Hidung','Gigi'], j:1, b:'Lidah adalah indra pengecap.'},
@@ -193,7 +193,7 @@ const DB = {
         {t:'esai', q:'ESAI 4. Jelaskan mengapa kita dapat melihat bayangan tubuh ketika berdiri di bawah sinar matahari!', b:'Karena cahaya merambat lurus dan terhalang oleh tubuh kita yang tidak tembus cahaya.'},
         {t:'esai', q:'ESAI 5. Perhatikan percobaan es batu wadah A di bawah matahari dan wadah B di ruangan sejuk. Es batu manakah yang lebih cepat mencair? Mengapa?', b:'Wadah A lebih cepat mencair karena mendapat energi panas langsung dari matahari.'}
       ],
-      "Paket 2 - Sains HOTS": [
+      "Paket 2 - Bermain Sains": [
         {t:'pg', q:'1. Rani menutup mata, kemudian ibunya memberikan sebuah benda berbentuk bulat dan beraroma harum. Rani dapat mengetahui aroma benda tersebut tanpa melihatnya. Indra yang membantu Rani adalah ....', o:['Penglihatan','Penciuman','Pendengaran','Peraba'], j:1, b:'Hidung merupakan indra penciuman yang berfungsi mengenali bau atau aroma benda meskipun mata tertutup.'},
         {t:'pg', q:'2. Edo memegang gelas berisi air hangat. Setelah beberapa saat, tangannya merasakan suhu gelas tersebut. Bagian tubuh yang menerima rangsangan panas adalah ....', o:['Kulit','Hidung','Lidah','Mata'], j:0, b:'Kulit adalah indra peraba yang peka terhadap rangsangan panas, dingin, kasar, dan halus.'},
         {t:'pg', q:'3. Beni sedang makan permen sambil menutup hidungnya. Ia merasa rasa dan aroma permen tidak senikmat biasanya. Kesimpulan yang paling tepat adalah ....', o:['Hidung hanya digunakan untuk bernapas','Indra penciuman dapat membantu mengenali rasa makanan','Mata membantu merasakan makanan','Telinga menentukan rasa makanan'], j:1, b:'Indra penciuman (hidung) bekerja sama dengan indra pengecap (lidah) sehingga kita bisa mengenali aroma dan kelezatan makanan.'},
