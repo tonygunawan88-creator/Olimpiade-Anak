@@ -530,7 +530,7 @@ function pilihMapel(mapel) {
     wadah.appendChild(btn);
   });
  }
- function mulaiKuis(namaPaket) {
+  function mulaiKuis(namaPaket) {
   daftarSoal = DB[anakAktif][mapelAktif][namaPaket];
   indeks = 0; skorPG = 0; daftarSalah = [];
   totalPG = daftarSoal.filter(s => s.t === 'pg' || s.t === 'garis').length;
@@ -606,16 +606,18 @@ function buatSoalGaris(s, wadah) {
         pilihKiri.el.classList.add('cocok');
         div.classList.add('cocok');
         gambarGarisSVG(pilihKiri.el, div, pilihKiri.warna);
-        bunyiNada([523, 784], 0.2);
+        bunyiNada(new Array(523, 784), 0.2);
         pilihKiri = null; jumlahCocok++;
         if (jumlahCocok === s.pasang.length) {
           st.innerHTML = '<div style="font-size:42px; margin-top:8px;">🎉</div><div class="benar-text">Yeah!! Semua Garis Benar!</div>';
-          skorPG++; bunyiNada([523, 659, 784, 1046], 0.25); bicara('Yeah! Hebat!');
+          skorPG++; bunyiNada(new Array(523, 659, 784, 1046), 0.25); bicara('Yeah! Hebat!');
           setTimeout(() => { soalBerikutnya(); }, 1500);
         }
       } else {
-        if (!daftarSalah.includes(indeks + 1)) daftarSalah.push(indeks + 1);
-        bunyiNada([300, 220], 0.25, 'sawtooth');
+        if (!daftarSalah.some(x => x.no === indeks + 1)) {
+          daftarSalah.push({ no: indeks + 1, soal: s.q, jawabAnak: 'Salah memasangkan garis', kunci: s.b, bahas: s.b });
+        }
+        bunyiNada(new Array(300, 220), 0.25, 'sawtooth');
         bicara('Yahhh, coba pasangan lain!');
         st.innerHTML = '<div class="salah-text">😢 Belum pas, coba ketuk gambar yang jumlahnya sama!</div>';
         setTimeout(() => { if (jumlahCocok < s.pasang.length) st.innerHTML = ''; }, 1200);
@@ -624,7 +626,6 @@ function buatSoalGaris(s, wadah) {
     colKanan.appendChild(div);
   });
 }
-
 function gambarGarisSVG(elKiri, elKanan, warna) {
   const area = document.getElementById('area-match').getBoundingClientRect();
   const r1 = elKiri.querySelector('.titik').getBoundingClientRect();
@@ -648,15 +649,17 @@ function cekPG(pilihan, btnPilih) {
   if (pilihan === s.j) {
     btnPilih.style.background = '#d8f3dc'; btnPilih.style.borderColor = '#06d6a0';
     st.innerHTML = '<div style="font-size:42px; margin-top:8px;">🎉</div><div class="benar-text">Yeah!! Jawabanmu Betul!</div>';
-    skorPG++; bunyiNada([523, 659, 784, 1046], 0.25); bicara('Yeah! Betul!');
+    skorPG++; bunyiNada(new Array(523, 659, 784, 1046), 0.25); bicara('Yeah! Betul!');
     setTimeout(() => { soalBerikutnya(); }, 1300);
   } else {
-    if (!daftarSalah.includes(indeks + 1)) daftarSalah.push(indeks + 1);
+    if (!daftarSalah.some(x => x.no === indeks + 1)) {
+      daftarSalah.push({ no: indeks + 1, soal: s.q, jawabAnak: s.o[pilihan], kunci: s.o[s.j], bahas: s.b });
+    }
     btnPilih.style.background = '#ffe5ec'; btnPilih.style.borderColor = '#ef476f';
     const semua = document.querySelectorAll('.btn-opt');
     if (semua[s.j]) { semua[s.j].style.background = '#d8f3dc'; semua[s.j].style.borderColor = '#06d6a0'; }
     st.innerHTML = '<div style="font-size:42px; margin-top:8px;">😢</div><div class="salah-text">Yahhh salah nih... Yuk baca pembahasannya!</div>';
-    bunyiNada([350, 280, 210], 0.3, 'sawtooth'); bicara('Yahhh, salah nih!');
+    bunyiNada(new Array(350, 280, 210), 0.3, 'sawtooth'); bicara('Yahhh, salah nih!');
     box.innerHTML = '<strong>💡 Pembahasan:</strong>\n' + s.b; box.classList.remove('hidden');
     document.getElementById('tombol-lanjut').classList.remove('hidden');
   }
@@ -667,7 +670,7 @@ function cekJawabanEsai() {
   if (inp.value.trim() === '') { alert('Ketik dulu jawabannya ya!'); return; }
   inp.disabled = true; document.getElementById('tombol-cek-esai').classList.add('hidden');
   document.getElementById('status-jawaban').innerHTML = '<div class="info-esai-text">✅ Jawaban tersimpan! Yuk cocokan dengan kunci di bawah:</div>';
-  bunyiNada([523, 659], 0.2);
+  bunyiNada(new Array(523, 659), 0.2);
   const box = document.getElementById('wadah-pembahasan');
   box.innerHTML = '<strong>🔑 Kunci Jawaban / Pembahasan:</strong>\n' + s.b; box.classList.remove('hidden');
   document.getElementById('tombol-lanjut').classList.remove('hidden');
@@ -680,18 +683,31 @@ function soalBerikutnya() {
   } else {
     document.getElementById('area-kuis').classList.add('hidden');
     document.getElementById('area-hasil').classList.remove('hidden');
-    daftarSalah.sort(function(a, b) { return a - b; });
-    var infoSalah = "";
+    var nilai = totalPG > 0 ? Math.round((skorPG / totalPG) * 100) : 100;
+    var htmlHasil = '<div style="background:#f0f9ff; border:2px solid #118ab2; border-radius:16px; padding:15px; margin:12px 0;">';
+    htmlHasil += '<div style="font-size:15px; color:#555;">Nilai Akhir Ujian:</div>';
+    htmlHasil += '<div style="font-size:48px; font-weight:bold; color:#06d6a0; line-height:1.2;">' + nilai + '</div>';
+    htmlHasil += '<div style="font-size:15px; color:#333;">Benar ' + skorPG + ' dari ' + totalPG + ' soal ⭐</div></div>';
+
     if (daftarSalah.length > 0) {
-      infoSalah = "<br><br><b style='color:#ef476f; font-size:18px;'>❌ Nomor yang salah: " + daftarSalah.join(", ") + "</b>";
+      daftarSalah.sort(function(a, b) { return a.no - b.no; });
+      htmlHasil += '<div style="text-align:left; margin-top:15px;"><b style="color:#ef476f; font-size:17px;">❌ Evaluasi Soal yang Salah (' + daftarSalah.length + ' soal):</b>';
+      daftarSalah.forEach(function(item) {
+        htmlHasil += '<div style="background:#fff5f7; border-left:4px solid #ef476f; border-radius:10px; padding:12px; margin-top:10px; font-size:14px; line-height:1.45; color:#222;">';
+        htmlHasil += '<b>' + item.soal + '</b><br>';
+        htmlHasil += '<span style="color:#d90429;">❌ Jawabanmu: ' + item.jawabAnak + '</span><br>';
+        htmlHasil += '<span style="color:#007f5f;">✅ Kunci Benar: ' + item.kunci + '</span><br>';
+        htmlHasil += '<span style="color:#555;">💡 ' + item.bahas + '</span></div>';
+      });
+      htmlHasil += '</div>';
     } else {
-      infoSalah = "<br><br><b style='color:#06d6a0; font-size:18px;'>🌟 Sempurna! Tidak ada yang salah!</b>";
+      htmlHasil += '<div style="margin-top:15px; padding:14px; background:#d8f3dc; color:#007f5f; border-radius:12px; font-size:16px;">🌟 Sempurna! Tidak ada soal yang salah!</div>';
     }
-    document.getElementById('teks-skor').innerHTML = "Pilihan Ganda: Benar " + skorPG + " dari " + totalPG + " soal ⭐" + infoSalah;
-    bunyiTepukTangan(); bicara('Horeee selesai! Hebat sekali!');
+    document.getElementById('teks-skor').innerHTML = htmlHasil;
+    bunyiTepukTangan(); bicara('Horeee selesai! Nilaimu ' + nilai + '!');
   }
  }
-   
+ 
 
  
 </script>
