@@ -443,7 +443,7 @@ function bicara(teks) {
     u.lang = 'id-ID'; u.rate = 1.0; u.pitch = 1.15;
     window.speechSynthesis.speak(u);
   }
-
+}
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function bunyiNada(freqs, durasi, tipe = 'sine') {
   if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -679,17 +679,19 @@ function soalBerikutnya() {
   } else {
     document.getElementById('area-kuis').classList.add('hidden');
     document.getElementById('area-hasil').classList.remove('hidden');
-    daftarSalah.sort((a, b) => a - b);
-    const teksNomorSalah = daftarSalah.length > 0
-      ? `<div style="margin-top:15px; padding:14px; background:#ffe5ec; border:2px solid #ef476f; color:#d90429; border-radius:14px; font-size:17px;">❌ Nomor yang salah:<br><span style="font-size:22px;">${daftarSalah.join(', ')}</span></div>`
-      : `<div style="margin-top:15px; padding:14px; background:#d8f3dc; border:2px solid #06d6a0; color:#007f5f; border-radius:14px; font-size:17px;">🌟 Luar biasa! Semua nomor benar!</div>`;
-    document.getElementById('teks-skor').innerHTML = `Pilihan Ganda: Benar ${skorPG} dari ${totalPG} soal ⭐${teksNomorSalah}`;
-    const riwayat = JSON.parse(localStorage.getItem('riwayatSalahOlimpiade') || '[]');
-    riwayat.push({ waktu: new Date().toLocaleString('id-ID'), anak: anakAktif, mapel: mapelAktif, salah: daftarSalah });
-    localStorage.setItem('riwayatSalahOlimpiade', JSON.stringify(riwayat));
-    bunyiTepukTangan(); bicara('Horeee selesai! Hebat sekali!');
+    daftarSalah.sort(function(a, b) { return a - b; });
+    var infoSalah = "";
+    if (daftarSalah.length > 0) {
+      infoSalah = "<br><br><b style='color:#ef476f;'>❌ Nomor salah: " + daftarSalah.join(", ") + "</b>";
+    } else {
+      infoSalah = "<br><br><b style='color:#06d6a0;'>🌟 Hebat! Semua benar!</b>";
+    }
+    document.getElementById('teks-skor').innerHTML = "Benar " + skorPG + " dari " + totalPG + " soal ⭐" + infoSalah;
+    bunyiTepukTangan();
+    bicara('Horeee selesai! Hebat sekali!');
   }
-  }
+}
+
  
 </script>
 </body>
