@@ -525,127 +525,7 @@ function pilihMapel(mapel) {
     btn.onclick = () => mulaiKuis(namaPaket);
     wadah.appendChild(btn);
   });
- }function mulaiKuis(namaPaket) {
-  daftarSoal = DB[anakAktif][mapelAktif][namaPaket];
-  indeks = 0; skorPG = 0; totalPG = daftarSoal.filter(s => s.t === 'pg' || s.t === 'garis').length;
-  document.getElementById('menu-paket').classList.add('hidden');
-  document.getElementById('area-kuis').classList.remove('hidden');
-  tampilkanSoal();
-}
-
-function tampilkanSoal() {
-  const s = daftarSoal[indeks];
-  document.getElementById('info-soal').innerText = `Soal ${indeks + 1} / ${daftarSoal.length}`;
-  document.getElementById('teks-soal').innerText = s.q;
-  document.getElementById('status-jawaban').innerHTML = '';
-  document.getElementById('wadah-pembahasan').classList.add('hidden');
-  document.getElementById('tombol-lanjut').classList.add('hidden');
-  const wOpsi = document.getElementById('wadah-opsi'), wEsai = document.getElementById('wadah-esai'), wGaris = document.getElementById('wadah-garis'), badge = document.getElementById('badge-tipe');
-  wOpsi.classList.add('hidden'); wEsai.classList.add('hidden'); wGaris.classList.add('hidden');
-
-  if (s.t === 'pg' || s.tipe === 'pg') {
-    badge.innerText = 'Pilihan Ganda'; wOpsi.classList.remove('hidden'); wOpsi.innerHTML = '';
-    const huruf = ['A. ', 'B. ', 'C. ', 'D. '];
-    s.o.forEach((teks, i) => {
-      const btn = document.createElement('button');
-      btn.className = 'btn btn-opt'; btn.innerText = huruf[i] + teks;
-      btn.onclick = () => cekPG(i, btn);
-      wOpsi.appendChild(btn);
-    });
-  } else if (s.t === 'garis' || s.tipe === 'garis') {
-    badge.innerText = 'Tarik Garis (Hubungkan)';
-    wGaris.classList.remove('hidden');
-    buatSoalGaris(s, wGaris);
-  } else {
-    badge.innerText = 'Soal Esai (Uraian)'; wEsai.classList.remove('hidden');
-    const inp = document.getElementById('input-jawaban-esai');
-    inp.value = ''; inp.disabled = false; inp.style.borderColor = '#118ab2'; inp.style.background = 'white';
-    document.getElementById('tombol-cek-esai').classList.remove('hidden');
-  }
-  window.scrollTo(0, 0);
-}
-
-let pilihKiri = null, jumlahCocok = 0;
-function buatSoalGaris(s, wadah) {
-  pilihKiri = null; jumlahCocok = 0;
-  const kananAcak = [...s.pasang].map((item, idx) => ({ ...item, idAsli: idx })).sort(() => Math.random() - 0.5);
-  wadah.innerHTML = `<div class="match-wrap" id="area-match"><svg class="match-svg" id="svg-garis"></svg><div class="match-col" id="kol-kiri"></div><div class="match-col" id="kol-kanan"></div></div>`;
-  const colKiri = document.getElementById('kol-kiri'), colKanan = document.getElementById('kol-kanan');
-
-  s.pasang.forEach((item, idx) => {
-    const div = document.createElement('div');
-    div.className = 'match-box'; div.id = 'kiri-' + idx;
-    div.innerHTML = `<span>${item.kiri}</span><span class="titik"></span>`;
-    div.onclick = () => {
-      if (div.classList.contains('cocok')) return;
-      document.querySelectorAll('#kol-kiri .match-box').forEach(el => el.classList.remove('pilih'));
-      div.classList.add('pilih');
-      pilihKiri = { idx, el: div, warna: item.warna };
-    };
-    colKiri.appendChild(div);
-  });
-
-  kananAcak.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'match-box kanan'; div.id = 'kanan-' + item.idAsli;
-    div.innerHTML = `<span>${item.kanan}</span><span class="titik"></span>`;
-    div.onclick = () => {
-      if (!pilihKiri || div.classList.contains('cocok')) return;
-      const st = document.getElementById('status-jawaban');
-      if (pilihKiri.idx === item.idAsli) {
-        pilihKiri.el.classList.remove('pilih');
-        pilihKiri.el.classList.add('cocok');
-        div.classList.add('cocok');
-        gambarGarisSVG(pilihKiri.el, div, pilihKiri.warna);
-        bunyiNada(new Array(523, 784), 0.2);
-        pilihKiri = null; jumlahCocok++;
-        if (jumlahCocok === s.pasang.length) {
-          st.innerHTML = '<div style="font-size:42px; margin-top:8px;">🥳</div><div class="benar-text">Yeah!!! Semua Garis Benar!</div>';
-          skorPG++; bunyiNada(new Array(523, 659, 784, 1046), 0.25); bicara('Yeah! Hebat!');
-          setTimeout(() => { soalBerikutnya(); }, 1500);
-        }
-      } else {
-        bunyiNada(new Array(300, 220), 0.25, 'sawtooth');
-        bicara('Yahhh, coba pasangan lain!');
-        st.innerHTML = '<div class="salah-text">😢 Belum pas, coba ketuk gambar yang jumlahnya sama!</div>';
-        setTimeout(() => { if (jumlahCocok < s.pasang.length) st.innerHTML = ''; }, 1200);
-      }
-    };
-    colKanan.appendChild(div);
-  });
-}
-
-function gambarGarisSVG(elKiri, elKanan, warna) {
-  const area = document.getElementById('area-match').getBoundingClientRect();
-  const r1 = elKiri.querySelector('.titik').getBoundingClientRect();
-  const r2 = elKanan.querySelector('.titik').getBoundingClientRect();
-  const svg = document.getElementById('svg-garis');
-  const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-  line.setAttribute('x1', r1.left - area.left + 7);
-  line.setAttribute('y1', r1.top - area.top + 7);
-  line.setAttribute('x2', r2.left - area.left + 7);
-  line.setAttribute('y2', r2.top - area.top + 7);
-  line.setAttribute('stroke', warna);
-  line.setAttribute('stroke-width', '5');
-  line.setAttribute('stroke-linecap', 'round');
-  svg.appendChild(line);
-}
-
-function cekPG(pilihan, btnPilih) {
-  const s = daftarSoal[indeks];
-  document.querySelectorAll('.btn-opt').forEach(b => b.disabled = true);
-  const st = document.getElementById('status-jawaban'), box = document.getElementById('wadah-pembahasan');
-  if (pilihan === s.j) {
-    btnPilih.style.background = '#d8f3dc'; btnPilih.style.borderColor = '#06d6a0';
-    st.innerHTML = '<div style="font-size:42px; margin-top:8px;">🥳</div><div class="benar-text">Yeah!!! Jawabanmu Betul!</div>';
-    skorPG++; bunyiNada(new Array(523, 659, 784, 1046), 0.25); bicara('Yeah! Betul!');
-    setTimeout(() => { soalBerikutnya(); }, 1300);
-  } else {
-    btnPilih.style.background = '#ffe5ec'; btnPilih.style.borderColor = '#ef476f';
-    const semua = document.querySelectorAll('.btn-opt');
-    if (semua[s.j]) { semua[s.j].style.background = '#d8f3dc'; semua[s.j].style.borderColor = '#06d6a0'; }
-    st.innerHTML = '<div style="font-size:42px; margin-top:8px;">😢</div><div class="salah-text">Yahhh salah nih... Yuk baca pembahasannya!</div>';
-let daftarSalah = [];
+ let daftarSalah = [];
 
 function mulaiKuis(namaPaket) {
   daftarSoal = DB[anakAktif][mapelAktif][namaPaket];
@@ -658,6 +538,7 @@ function mulaiKuis(namaPaket) {
 
 function tampilkanSoal() {
   const s = daftarSoal[indeks];
+  const badge = document.getElementById('badge-tipe');
   document.getElementById('info-soal').innerText = `Soal ${indeks + 1} / ${daftarSoal.length}`;
   document.getElementById('teks-soal').innerText = s.q;
   document.getElementById('status-jawaban').innerHTML = '';
@@ -667,7 +548,8 @@ function tampilkanSoal() {
   wOpsi.classList.add('hidden'); wEsai.classList.add('hidden'); wGaris.classList.add('hidden');
 
   if (s.t === 'pg' || s.tipe === 'pg') {
-    badge.innerText = 'Pilihan Ganda'; wOpsi.classList.remove('hidden'); wOpsi.innerHTML = '';
+    if (badge) badge.innerText = 'Pilihan Ganda';
+    wOpsi.classList.remove('hidden'); wOpsi.innerHTML = '';
     const huruf = ['A. ', 'B. ', 'C. ', 'D. '];
     s.o.forEach((teks, i) => {
       const btn = document.createElement('button');
@@ -676,11 +558,12 @@ function tampilkanSoal() {
       wOpsi.appendChild(btn);
     });
   } else if (s.t === 'garis' || s.tipe === 'garis') {
-    badge.innerText = 'Tarik Garis (Hubungkan)';
+    if (badge) badge.innerText = 'Tarik Garis (Hubungkan)';
     wGaris.classList.remove('hidden');
     buatSoalGaris(s, wGaris);
   } else {
-    badge.innerText = 'Soal Esai (Uraian)'; wEsai.classList.remove('hidden');
+    if (badge) badge.innerText = 'Soal Esai (Uraian)';
+    wEsai.classList.remove('hidden');
     const inp = document.getElementById('input-jawaban-esai');
     inp.value = ''; inp.disabled = false; inp.style.borderColor = '#118ab2'; inp.style.background = '#fff';
     document.getElementById('tombol-cek-esai').classList.remove('hidden');
@@ -737,9 +620,8 @@ function buatSoalGaris(s, wadah) {
     };
     colKanan.appendChild(div);
   });
-}
-
-function gambarGarisSVG(elKiri, elKanan, warna) {
+ }
+ function gambarGarisSVG(elKiri, elKanan, warna) {
   const area = document.getElementById('area-match').getBoundingClientRect();
   const r1 = elKiri.querySelector('.titik').getBoundingClientRect();
   const r2 = elKanan.querySelector('.titik').getBoundingClientRect();
@@ -770,184 +652,20 @@ function cekPG(pilihan, btnPilih) {
     const semua = document.querySelectorAll('.btn-opt');
     if (semua[s.j]) { semua[s.j].style.background = '#d8f3dc'; semua[s.j].style.borderColor = '#06d6a0'; }
     st.innerHTML = `<div style="font-size:42px; margin-top:8px;">😢</div><div class="salah-text">Yahhh salah nih... Yuk baca pembahasannya!</div>`;
-let daftarSalah = [];
-
-function mulaiKuis(namaPaket) {
-  daftarSoal = DB[anakAktif][mapelAktif][namaPaket];
-  indeks = 0;
-  skorPG = 0;
-  daftarSalah = [];
-  totalPG = daftarSoal.filter(s => s.t === 'pg' || s.t === 'garis').length;
-  document.getElementById('menu-paket').classList.add('hidden');
-  document.getElementById('area-kuis').classList.remove('hidden');
-  tampilkanSoal();
-}
-
-function tampilkanSoal() {
-  const s = daftarSoal[indeks];
-  const badge = document.getElementById('badge-tipe');
-  document.getElementById('info-soal').innerText = `Soal ${indeks + 1} / ${daftarSoal.length}`;
-  document.getElementById('teks-soal').innerText = s.q;
-  document.getElementById('status-jawaban').innerHTML = '';
-  document.getElementById('wadah-pembahasan').classList.add('hidden');
-  document.getElementById('tombol-lanjut').classList.add('hidden');
-  const wOpsi = document.getElementById('wadah-opsi');
-  const wEsai = document.getElementById('wadah-esai');
-  const wGaris = document.getElementById('wadah-garis');
-  wOpsi.classList.add('hidden');
-  wEsai.classList.add('hidden');
-  wGaris.classList.add('hidden');
-
-  if (s.t === 'pg' || s.tipe === 'pg') {
-    if (badge) badge.innerText = 'Pilihan Ganda';
-    wOpsi.classList.remove('hidden');
-    wOpsi.innerHTML = '';
-    const huruf = ['A. ', 'B. ', 'C. ', 'D. '];
-    s.o.forEach((teks, i) => {
-      const btn = document.createElement('button');
-      btn.className = 'btn btn-opt';
-      btn.innerText = huruf[i] + teks;
-      btn.onclick = () => cekPG(i, btn);
-      wOpsi.appendChild(btn);
-    });
-  } else if (s.t === 'garis' || s.tipe === 'garis') {
-    if (badge) badge.innerText = 'Tarik Garis (Hubungkan)';
-    wGaris.classList.remove('hidden');
-    buatSoalGaris(s, wGaris);
-  } else {
-    if (badge) badge.innerText = 'Soal Esai (Uraian)';
-    wEsai.classList.remove('hidden');
-    const inp = document.getElementById('input-jawaban-esai');
-    inp.value = '';
-    inp.disabled = false;
-    inp.style.borderColor = '#118ab2';
-    inp.style.background = '#fff';
-    document.getElementById('tombol-cek-esai').classList.remove('hidden');
-  }
-  window.scrollTo(0, 0);
-}
-
-let pilihKiri = null, jumlahCocok = 0;
-function buatSoalGaris(s, wadah) {
-  pilihKiri = null;
-  jumlahCocok = 0;
-  const kananAcak = [...s.pasang].map((item, idx) => ({ ...item, idAsli: idx })).sort(() => Math.random() - 0.5);
-  wadah.innerHTML = `<div class="match-wrap" id="area-match"><svg class="match-svg" id="svg-garis"></svg><div class="match-col" id="kol-kiri"></div><div class="match-col" id="kol-kanan"></div></div>`;
-  const colKiri = document.getElementById('kol-kiri'), colKanan = document.getElementById('kol-kanan');
-
-  s.pasang.forEach((item, idx) => {
-    const div = document.createElement('div');
-    div.className = 'match-box';
-    div.id = 'kiri-' + idx;
-    div.innerHTML = `<span>${item.kiri}</span><span class="titik"></span>`;
-    div.onclick = () => {
-      if (div.classList.contains('cocok')) return;
-      document.querySelectorAll('#kol-kiri .match-box').forEach(el => el.classList.remove('pilih'));
-      div.classList.add('pilih');
-      pilihKiri = { idx, el: div, warna: item.warna };
-    };
-    colKiri.appendChild(div);
-  });
-
-  kananAcak.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'match-box kanan';
-    div.id = 'kanan-' + item.idAsli;
-    div.innerHTML = `<span>${item.kanan}</span><span class="titik"></span>`;
-    div.onclick = () => {
-      if (!pilihKiri || div.classList.contains('cocok')) return;
-      const st = document.getElementById('status-jawaban');
-      if (pilihKiri.idx === item.idAsli) {
-        pilihKiri.el.classList.remove('pilih');
-        pilihKiri.el.classList.add('cocok');
-        div.classList.add('cocok');
-        gambarGarisSVG(pilihKiri.el, div, pilihKiri.warna);
-        bunyiNada([523, 784], 0.2);
-        pilihKiri = null;
-        jumlahCocok++;
-        if (jumlahCocok === s.pasang.length) {
-          st.innerHTML = `<div style="font-size:42px; margin-top:8px;">🎉</div><div class="benar-text">Yeah!! Semua Garis Benar!</div>`;
-          skorPG++;
-          bunyiNada([523, 659, 784, 1046], 0.25);
-          bicara('Yeah! Hebat!');
-          setTimeout(() => { soalBerikutnya(); }, 1500);
-        }
-      } else {
-        const nomorSekarang = indeks + 1;
-        if (!daftarSalah.includes(nomorSekarang)) {
-          daftarSalah.push(nomorSekarang);
-        }
-        bunyiNada([300, 220], 0.25, 'sawtooth');
-        bicara('Yahhh, coba pasangan lain!');
-        st.innerHTML = `<div class="salah-text">😢 Belum pas, coba ketuk gambar yang jumlahnya sama!</div>`;
-        setTimeout(() => { if (jumlahCocok < s.pasang.length) st.innerHTML = ''; }, 1200);
-      }
-    };
-    colKanan.appendChild(div);
-  });
-}
-
-function gambarGarisSVG(elKiri, elKanan, warna) {
-  const area = document.getElementById('area-match').getBoundingClientRect();
-  const r1 = elKiri.querySelector('.titik').getBoundingClientRect();
-  const r2 = elKanan.querySelector('.titik').getBoundingClientRect();
-  const svg = document.getElementById('svg-garis');
-  const line = document.createElementNS('http://w3.org', 'line');
-  line.setAttribute('x1', r1.left - area.left + 7);
-  line.setAttribute('y1', r1.top - area.top + 7);
-  line.setAttribute('x2', r2.left - area.left + 7);
-  line.setAttribute('y2', r2.top - area.top + 7);
-  line.setAttribute('stroke', warna);
-  line.setAttribute('stroke-width', '5');
-  line.setAttribute('stroke-linecap', 'round');
-  svg.appendChild(line);
-}
-
-function cekPG(pilihan, btnPilih) {
-  const s = daftarSoal[indeks];
-  document.querySelectorAll('.btn-opt').forEach(b => b.disabled = true);
-  const st = document.getElementById('status-jawaban');
-  const box = document.getElementById('wadah-pembahasan');
-  if (pilihan === s.j) {
-    btnPilih.style.background = '#d8f3dc';
-    btnPilih.style.borderColor = '#06d6a0';
-    st.innerHTML = `<div style="font-size:42px; margin-top:8px;">🎉</div><div class="benar-text">Yeah!! Jawabanmu Betul!</div>`;
-    skorPG++;
-    bunyiNada([523, 659, 784, 1046], 0.25);
-    bicara('Yeah! Betul!');
-    setTimeout(() => { soalBerikutnya(); }, 1300);
-  } else {
-    const nomorSekarang = indeks + 1;
-    if (!daftarSalah.includes(nomorSekarang)) {
-      daftarSalah.push(nomorSekarang);
-    }
-    btnPilih.style.background = '#ffe5ec';
-    btnPilih.style.borderColor = '#ef476f';
-    const semua = document.querySelectorAll('.btn-opt');
-    if (semua[s.j]) {
-      semua[s.j].style.background = '#d8f3dc';
-      semua[s.j].style.borderColor = '#06d6a0';
-    }
-    st.innerHTML = `<div style="font-size:42px; margin-top:8px;">😢</div><div class="salah-text">Yahhh salah nih... Yuk baca pembahasannya!</div>`;
-    bunyiNada([350, 280, 210], 0.3, 'sawtooth');
-    bicara('Yahhh, salah nih!');
-    box.innerHTML = `<strong>💡 Pembahasan:</strong>\n${s.b}`;
-    box.classList.remove('hidden');
+    bunyiNada(new Array(350, 280, 210), 0.3, 'sawtooth'); bicara('Yahhh, salah nih!');
+    box.innerHTML = `<strong>💡 Pembahasan:</strong>\n${s.b}`; box.classList.remove('hidden');
     document.getElementById('tombol-lanjut').classList.remove('hidden');
   }
 }
 
 function cekJawabanEsai() {
-  const s = daftarSoal[indeks];
-  const inp = document.getElementById('input-jawaban-esai');
+  const s = daftarSoal[indeks], inp = document.getElementById('input-jawaban-esai');
   if (inp.value.trim() === '') { alert('Ketik dulu jawabannya ya!'); return; }
-  inp.disabled = true;
-  document.getElementById('tombol-cek-esai').classList.add('hidden');
+  inp.disabled = true; document.getElementById('tombol-cek-esai').classList.add('hidden');
   document.getElementById('status-jawaban').innerHTML = `<div class="info-esai-text">✅ Jawaban tersimpan! Yuk cocokan dengan kunci di bawah:</div>`;
-  bunyiNada([523, 659], 0.2);
+  bunyiNada(new Array(523, 659), 0.2);
   const box = document.getElementById('wadah-pembahasan');
-  box.innerHTML = `<strong>🔑 Kunci Jawaban / Pembahasan:</strong>\n${s.b}`;
-  box.classList.remove('hidden');
+  box.innerHTML = `<strong>🔑 Kunci Jawaban / Pembahasan:</strong>\n${s.b}`; box.classList.remove('hidden');
   document.getElementById('tombol-lanjut').classList.remove('hidden');
 }
 
@@ -958,28 +676,18 @@ function soalBerikutnya() {
   } else {
     document.getElementById('area-kuis').classList.add('hidden');
     document.getElementById('area-hasil').classList.remove('hidden');
-    
     daftarSalah.sort((a, b) => a - b);
     const teksNomorSalah = daftarSalah.length > 0
       ? `<div style="margin-top:15px; padding:14px; background:#ffe5ec; border:2px solid #ef476f; color:#d90429; border-radius:14px; font-size:17px;">❌ Nomor yang salah:<br><span style="font-size:22px;">${daftarSalah.join(', ')}</span></div>`
       : `<div style="margin-top:15px; padding:14px; background:#d8f3dc; border:2px solid #06d6a0; color:#007f5f; border-radius:14px; font-size:17px;">🌟 Luar biasa! Semua nomor benar!</div>`;
-
     document.getElementById('teks-skor').innerHTML = `Pilihan Ganda: Benar ${skorPG} dari ${totalPG} soal ⭐${teksNomorSalah}`;
-    
     const riwayat = JSON.parse(localStorage.getItem('riwayatSalahOlimpiade') || '[]');
-    riwayat.push({
-      waktu: new Date().toLocaleString('id-ID'),
-      anak: anakAktif,
-      mapel: mapelAktif,
-      salah: daftarSalah
-    });
+    riwayat.push({ waktu: new Date().toLocaleString('id-ID'), anak: anakAktif, mapel: mapelAktif, salah: daftarSalah });
     localStorage.setItem('riwayatSalahOlimpiade', JSON.stringify(riwayat));
-
-    bunyiTepukTangan();
-    bicara('Horeee selesai! Hebat sekali!');
+    bunyiTepukTangan(); bicara('Horeee selesai! Hebat sekali!');
   }
-}
-
+  }
+ 
 </script>
 </body>
 </html>
