@@ -249,7 +249,10 @@ function mulaiSapaan() {
   document.getElementById('menu-anak').classList.remove('hidden');
   bicara("Halo, selamat datang! Selamat belajar. Siapakah yang akan belajar saat ini? Zio atau Eca?");
 }
-
+window.onload = function() {
+  setTimeout(() => { mulaiSapaan(); }, 800);
+};
+ 
 function pilihAnak(profil, nama) {
   anakAktif = profil;
   bicara(`Oke, selamat datang ${nama}! Yuk kita mulai belajar!`);
