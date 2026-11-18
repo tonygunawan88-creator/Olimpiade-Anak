@@ -443,7 +443,6 @@ function bicara(teks) {
     u.lang = 'id-ID'; u.rate = 1.0; u.pitch = 1.15;
     window.speechSynthesis.speak(u);
   }
-}
 
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function bunyiNada(freqs, durasi, tipe = 'sine') {
