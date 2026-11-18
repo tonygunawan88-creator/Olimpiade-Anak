@@ -130,11 +130,36 @@ const DB = {
     ING: { "Paket 1": [{t:'pg', q:'Apa bahasa Inggrisnya buah Apel?', o:['Banana','Apple','Orange'], j:1, b:'Apple artinya apel.'}] }
   },
    SD: {
-    MTK: {
-      "Paket 1 - Latihan Dasar": [
-        {t:'pg', q:'1. Hasil dari 45 + 23 - 12 adalah ....', o:['50','56','66','68'], j:1, b:'45 + 23 = 68, lalu 68 - 12 = 56.'},
-        {t:'pg', q:'2. Adi memiliki 82 kelereng. Budi memiliki kelereng 15 lebih sedikit dari Adi. Berapa banyak kelereng Budi?', o:['67','77','87','97'], j:0, b:'82 - 15 = 67 kelereng.'}
+        MTK: {
+      "Paket 1 - Olimpiade Matematika": [
+        {t:'pg', q:'1. Hasil dari 45 + 23 - 12 adalah ....', o:['50','56','66','68'], j:1, b:'Hitung dari kiri ke kanan: 45 + 23 = 68, lalu 68 - 12 = 56.'},
+        {t:'pg', q:'2. Adi memiliki 82 kelereng. Budi memiliki kelereng 15 lebih sedikit dari Adi. Berapa banyak kelereng Budi?', o:['67','77','87','97'], j:0, b:'82 - 15 = 67 kelereng.'},
+        {t:'pg', q:'3. Perhatikan pola bilangan berikut: 3, 6, 9, 12, A, 18. Nilai dari bilangan A yang tepat adalah ....', o:['13','14','15','16'], j:2, b:'Pola melompat +3 setiap langkahnya. 12 + 3 = 15.'},
+        {t:'pg', q:'4. Look at this number sequence: 20, 18, 16, 14, 12, ... What is the next number?', o:['13','11','10','8'], j:2, b:'Pola berkurang 2 (-2). Setelah 12 adalah 12 - 2 = 10.'},
+        {t:'pg', q:'5. Aku adalah sebuah bilangan bulat. Jika aku ditambah 25, hasilnya menjadi 60. Bilangan berapakah aku?', o:['25','35','45','85'], j:1, b:'60 - 25 = 35.'},
+        {t:'pg', q:'6. Rumah makan Ibu buka dari pukul 08.00 pagi sampai pukul 04.00 sore. Berapa jam rumah makan tersebut buka dalam sehari?', o:['4 jam','6 jam','8 jam','12 jam'], j:2, b:'Pukul 04.00 sore = pukul 16.00. Lama buka = 16 - 8 = 8 jam.'},
+        {t:'pg', q:'7. Ibu memotong sebuah kue menjadi beberapa bagian sama besar untuk 4 anaknya. Setiap anak mendapatkan seperempat bagian. Jika kue tersebut dipotong menjadi 8 bagian sama besar, berapa potong kue yang didapat setiap anak agar bagiannya tetap sama?', o:['1 potong','2 potong','3 potong','4 potong'], j:1, b:'8 potong dibagi 4 anak = 2 potong per anak.'},
+        {t:'pg', q:'8. Roni memiliki selembar uang Rp50.000. Ia membeli sebuah buku cerita seharga Rp22.000 dan pensil seharga Rp5.000. Berapa sisa uang kembalian Roni?', o:['Rp23.000','Rp27.000','Rp28.000','Rp33.000'], j:0, b:'Total belanja = 22.000 + 5.000 = 27.000. Sisa = 50.000 - 27.000 = Rp23.000.'},
+        {t:'pg', q:'9. Which shape has exactly 3 sides and 3 corners?', o:['Rectangle','Circle','Triangle','Square'], j:2, b:'Triangle (segitiga) memiliki 3 sisi dan 3 sudut.'},
+        {t:'pg', q:'10. Di sebuah taman terdapat 14 sepeda roda dua dan 5 sepeda roda tiga. Berapa jumlah seluruh roda sepeda yang ada di taman tersebut?', o:['19 roda','33 roda','38 roda','43 roda'], j:3, b:'(14 × 2) + (5 × 3) = 28 + 15 = 43 roda.'},
+        {t:'pg', q:'11. Panjang sebuah meja adalah 3 meter. Jika diukur menggunakan penggaris sepanjang 50 cm, maka penggaris tersebut harus diletakkan berulang-ulang sebanyak .... kali.', o:['3','4','5','6'], j:3, b:'3 meter = 300 cm. 300 cm : 50 cm = 6 kali.'},
+        {t:'pg', q:'12. Ada dua buah lampu. Lampu merah menyala setiap 2 detik sekali. Lampu hijau menyala setiap 3 detik sekali. Jika kedua lampu menyala bersamaan pada detik ke-0, pada detik ke berapa keduanya menyala bersamaan lagi?', o:['Detik ke-3','Detik ke-5','Detik ke-6','Detik ke-8'], j:2, b:'Kelipatan persekutuan dari 2 dan 3 adalah 6 (detik ke-6).'},
+        {t:'pg', q:'13. Siti memiliki pita sepanjang 90 cm. Dayu memiliki pita sepanjang 1 meter. Lani memiliki pita sepanjang 85 cm. Urutan nama anak dari yang memiliki pita paling pendek adalah ....', o:['Siti, Dayu, Lani','Lani, Siti, Dayu','Dayu, Siti, Lani','Lani, Dayu, Siti'], j:1, b:'1 meter = 100 cm. Urutan dari terpendek: Lani (85 cm), Siti (90 cm), Dayu (100 cm).'},
+        {t:'pg', q:'14. Kakak membuat pola susunan manik-manik: merah, kuning, hijau, merah, kuning, hijau, dan seterusnya. Warna manik-manik pada urutan ke-11 adalah ....', o:['Merah','Kuning','Hijau','Biru'], j:1, b:'Pola berulang setiap 3 warna (3, 6, 9 hijau). Urutan ke-10 merah, ke-11 kuning.'},
+        {t:'pg', q:'15. Sebuah persegi memiliki panjang sisi 6 cm. Berapakah keliling dari persegi tersebut jika dihitung dengan menjumlahkan semua sisinya?', o:['12 cm','18 cm','24 cm','36 cm'], j:2, b:'Keliling persegi = 4 × 6 cm = 24 cm.'},
+        {t:'pg', q:'16. Pak Tani memiliki 24 ekor ayam. Setengah dari jumlah ayam tersebut dipindahkan ke kandang baru. Berapa sisa ayam di kandang lama?', o:['6 ekor','12 ekor','18 ekor','20 ekor'], j:1, b:'Setengah dari 24 = 24 : 2 = 12 ekor.'},
+        {t:'pg', q:'17. Di sebuah rak buku, buku matematika berada di sebelah kanan buku sains. Buku bahasa berada di sebelah kiri buku sains. Buku apakah yang berada di posisi paling tengah?', o:['Buku Matematika','Buku Sains','Buku Bahasa','Tidak ada yang di tengah'], j:1, b:'Urutan dari kiri ke kanan: Bahasa, Sains, Matematika. Yang di tengah adalah Buku Sains.'},
+        {t:'pg', q:'18. Sarah has 5 boxes of donuts. Each box contains 6 donuts. She gives 12 donuts to her friends. How many donuts does Sarah have left?', o:['18 donuts','20 donuts','30 donuts','42 donuts'], j:0, b:'Total donat = 5 × 6 = 30. Sisa = 30 - 12 = 18 donat.'},
+        {t:'pg', q:'19. Jika kemarin adalah hari Rabu, maka 3 hari setelah hari ini adalah hari ....', o:['Sabtu','Minggu','Senin','Selasa'], j:1, b:'Kemarin Rabu -> hari ini Kamis. 3 hari setelah Kamis adalah hari Minggu.'},
+        {t:'pg', q:'20. Sebanyak 9 orang anak sedang mengantre di kasir. Budi berada di tengah-tengah antrean tersebut. Di urutan ke berapakah posisi Budi jika dihitung dari depan?', o:['Urutan ke-3','Urutan ke-4','Urutan ke-5','Urutan ke-6'], j:2, b:'Di tengah dari 9 orang berarti ada 4 orang di depan dan 4 orang di belakang, jadi Budi urutan ke-5.'},
+        {t:'esai', q:'21. Tuliskan lambang bilangan bulat dari: tujuh puluh empat.', b:'74 (angka 7 menempati puluhan, angka 4 menempati satuan).'},
+        {t:'esai', q:'22. Jumlah dua buah bilangan bulat adalah 20, dan selisihnya adalah 4. Berapakah bilangan yang paling besar di antara keduanya?', b:'12 (12 + 8 = 20 dan 12 - 8 = 4).'},
+        {t:'esai', q:'23. A clock shows exactly 03.00 o\'clock. What kind of angle is formed by the two hands of the clock? (Acute, Right, or Obtuse angle?)', b:'Right angle (sudut siku-siku, besarnya 90 derajat).'},
+        {t:'esai', q:'24. Sebuah bus mula-mula berisi 8 orang penumpang. Di halte A, turun 3 orang dan naik 5 orang. Di halte B, turun 4 orang. Berapa banyak penumpang di dalam bus sekarang?', b:'8 - 3 + 5 - 4 = 6 orang penumpang.'},
+        {t:'esai', q:'25. Perhatikan gambar mental pola susunan segitiga: Pola 1 butuh 3 batang korek api. Pola 2 butuh 5 batang korek api. Pola 3 butuh 7 batang korek api. Berapa batang korek api yang dibutuhkan untuk membuat Pola ke-5?', b:'Pola bertambah +2 setiap langkah: Pola 4 butuh 9 batang, Pola 5 butuh 11 batang korek api.'}
       ]
+    },
+ ]
     },
     ING: { "Paket 1": [{t:'pg', q:'Today is Monday. Tomorrow is ...', o:['Sunday','Tuesday','Friday'], j:1, b:'Setelah Senin (Monday) adalah Selasa (Tuesday).'}] },
     IPA: {
