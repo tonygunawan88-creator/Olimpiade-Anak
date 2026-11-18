@@ -31,9 +31,18 @@
 </head>
 <body>
 
-<div class="card" id="menu-anak">
+<!-- HALAMAN POP-UP PEMBUKA -->
+<div class="card" id="popup-awal" style="padding: 35px 20px;">
+  <div style="font-size: 55px; margin-bottom: 10px;">🎒📚</div>
+  <h1>Sudah siap belajar?</h1>
+  <p style="color:#666; margin-bottom: 20px;">Ayo latihan soal olimpiade hari ini!</p>
+  <button class="btn btn-sd" style="font-size: 20px; padding: 16px;" onclick="mulaiSapaan()">Siap! 🚀</button>
+</div>
+
+<!-- HALAMAN PILIH PROFIL ZIO / ECA -->
+<div class="card hidden" id="menu-anak">
   <h1>🏆 Latihan Olimpiade 🏆</h1>
-  <p>Ketuk layar atau tombol nama di bawah untuk menyalakan suara sapaan!</p>
+  <p>Siapakah yang akan belajar saat ini?</p>
   <button class="btn btn-tk" onclick="pilihAnak('TK', 'Zio')">🧸 ZIO (Level TK)</button>
   <button class="btn btn-sd" onclick="pilihAnak('SD', 'Eca')">🚀 ECA (SD Kelas 1-2)</button>
 </div>
@@ -165,21 +174,12 @@ function bunyiTepukTangan() {
   }
 }
 
-document.body.addEventListener('click', () => {
-  if (!sudahSapaAwal) {
-    sudahSapaAwal = true;
-    bicara("Halo, selamat datang! Selamat belajar. Siapakah yang akan belajar saat ini? Zio atau Eca?");
-  }
-}, { once: false });
-
-window.onload = function() {
-  setTimeout(() => {
-    if(!sudahSapaAwal) {
-      bicara("Halo, selamat datang! Selamat belajar. Siapakah yang akan belajar saat ini? Zio atau Eca?");
-      sudahSapaAwal = true;
-    }
-  }, 1000);
-};
+function mulaiSapaan() {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  document.getElementById('popup-awal').classList.add('hidden');
+  document.getElementById('menu-anak').classList.remove('hidden');
+  bicara("Halo, selamat datang! Selamat belajar. Siapakah yang akan belajar saat ini? Zio atau Eca?");
+}
 
 function pilihAnak(profil, namaPanggilan) {
   anakAktif = profil;
@@ -188,6 +188,7 @@ function pilihAnak(profil, namaPanggilan) {
   document.getElementById('menu-mapel').classList.remove('hidden');
   document.getElementById('judul-anak').innerText = profil === 'TK' ? '🧸 Menu Belajar ZIO (TK)' : '🚀 Menu Belajar ECA (SD 1-2)';
 }
+
 
 function kembaliKeAnak() {
   document.getElementById('menu-mapel').classList.add('hidden');
