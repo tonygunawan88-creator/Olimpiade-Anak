@@ -34,8 +34,8 @@
 <div class="card" id="menu-anak">
   <h1>🏆 Latihan Olimpiade 🏆</h1>
   <p>Siapa yang mau belajar hari ini?</p>
-  <button class="btn btn-tk" onclick="pilihAnak('TK')">🧸 Adik (Level TK)</button>
-  <button class="btn btn-sd" onclick="pilihAnak('SD')">🚀 Kakak (SD Kelas 1-2)</button>
+  <button class="btn btn-tk" onclick="pilihAnak('TK')">🐯 ZIO (Level TK)</button>
+  <button class="btn btn-sd" onclick="pilihAnak('SD')">🐔 ECA (SD Kelas 1-2)</button>
 </div>
 
 <div class="card hidden" id="menu-mapel">
@@ -47,9 +47,13 @@
   <button class="btn btn-back" onclick="kembaliKeAnak()">⬅ Ganti Profil</button>
 </div>
 <div class="card hidden" id="area-kuis">
-  <button onclick="batalKuis()" style="background:#eee; border:none; padding:6px 12px; border-radius:10px; font-weight:bold; color:#555; float:left; cursor:pointer;">⬅ Menu</button>
-  <div id="info-soal" style="color: #888; font-weight: bold; font-size: 14px; padding-top:5px;"></div>
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+    <button onclick="keMenuMapel()" style="background:#eee; border:none; padding:6px 14px; border-radius:10px; font-weight:bold; color:#555; cursor:pointer;">Menu</button>
+    <div id="info-soal" style="color: #888; font-weight: bold; font-size: 14px;"></div>
+    <button onclick="keSoalSebelumnya()" style="background:#eee; border:none; padding:6px 14px; border-radius:10px; font-weight:bold; color:#555; cursor:pointer;">Back</button>
+  </div>
   <div id="badge-tipe" class="badge-tipe"></div>
+
 
   <div class="question" id="teks-soal"></div>
   <div id="wadah-opsi"></div>
@@ -131,11 +135,65 @@ function kembaliKeMapel() {
   document.getElementById('area-hasil').classList.add('hidden');
   document.getElementById('menu-mapel').classList.remove('hidden');
 }
- function batalKuis() {
+function keMenuMapel() {
   document.getElementById('area-kuis').classList.add('hidden');
   document.getElementById('menu-mapel').classList.remove('hidden');
- }
- 
+}
+function keSoalSebelumnya() {
+  if (indeks > 0) {
+    indeks--;
+    tampilkanSoal();
+  }
+}
+
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+function bunyiNada(freqs, durasi, tipe = 'sine') {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  freqs.forEach((f, idx) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = tipe;
+    osc.frequency.setValueAtTime(f, audioCtx.currentTime + idx * 0.12);
+    gain.gain.setValueAtTime(0.25, audioCtx.currentTime + idx * 0.12);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + idx * 0.12 + durasi);
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.start(audioCtx.currentTime + idx * 0.12);
+    osc.stop(audioCtx.currentTime + idx * 0.12 + durasi);
+  });
+}
+
+function bicara(teks) {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(teks);
+    u.lang = 'id-ID';
+    u.rate = 1.05;
+    u.pitch = 1.2;
+    window.speechSynthesis.speak(u);
+  }
+}
+
+function bunyiTepukTangan() {
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  for (let i = 0; i < 18; i++) {
+    const waktu = audioCtx.currentTime + i * 0.11;
+    const bufferSize = audioCtx.sampleRate * 0.08;
+    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let j = 0; j < bufferSize; j++) data[j] = Math.random() * 2 - 1;
+    const noise = audioCtx.createBufferSource();
+    noise.buffer = buffer;
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = 1000 + Math.random() * 500;
+    const gain = audioCtx.createGain();
+    gain.gain.setValueAtTime(0.3, waktu);
+    gain.gain.exponentialRampToValueAtTime(0.01, waktu + 0.08);
+    noise.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
+    noise.start(waktu);
+  }
+}
+
 function mulaiKuis(m) {
   daftarSoal = DB[anakAktif][m];
   indeks = 0; skorPG = 0; totalPG = daftarSoal.filter(s => s.t === 'pg').length;
@@ -145,7 +203,7 @@ function mulaiKuis(m) {
 }
 function tampilkanSoal() {
   const s = daftarSoal[indeks];
-  document.getElementById('info-soal').innerText = `Soal ${indeks + 1} dari ${daftarSoal.length}`;
+  document.getElementById('info-soal').innerText = `Soal ${indeks + 1} / ${daftarSoal.length}`;
   document.getElementById('teks-soal').innerText = s.q;
   document.getElementById('status-jawaban').innerHTML = '';
   document.getElementById('wadah-pembahasan').classList.add('hidden');
@@ -174,21 +232,28 @@ function cekPG(pilihan, btnPilih) {
   const st = document.getElementById('status-jawaban'), box = document.getElementById('wadah-pembahasan');
   if (pilihan === s.j) {
     btnPilih.style.background = '#d8f3dc'; btnPilih.style.borderColor = '#06d6a0';
-    st.innerHTML = '<div class="benar-text">🌟 Hebat! Jawabanmu Benar!</div>'; skorPG++;
+    st.innerHTML = '<div style="font-size:42px; margin-top:8px;">🥳</div><div class="benar-text">Yeah!!! Jawabanmu Betul!</div>';
+    skorPG++;
+    bunyiNada(new Array(523, 659, 784, 1046), 0.25);
+    bicara('Yeah! Hebat!');
+    setTimeout(() => { soalBerikutnya(); }, 1300);
   } else {
     btnPilih.style.background = '#ffe5ec'; btnPilih.style.borderColor = '#ef476f';
     const semua = document.querySelectorAll('.btn-opt');
     semua[s.j].style.background = '#d8f3dc'; semua[s.j].style.borderColor = '#06d6a0';
-    st.innerHTML = '<div class="salah-text">💪 Kurang tepat, yuk lihat pembahasannya!</div>';
+    st.innerHTML = '<div style="font-size:42px; margin-top:8px;">😢</div><div class="salah-text">Yahhh salah nih... Yuk baca pembahasannya!</div>';
+    bunyiNada(new Array(350, 280, 210), 0.3, 'sawtooth');
+    bicara('Yahhh, salah nih!');
     box.innerHTML = `<strong>💡 Pembahasan:</strong>\n${s.b}`; box.classList.remove('hidden');
+    document.getElementById('tombol-lanjut').classList.remove('hidden');
   }
-  document.getElementById('tombol-lanjut').classList.remove('hidden');
 }
 function cekJawabanEsai() {
   const s = daftarSoal[indeks], inp = document.getElementById('input-jawaban-esai');
   if (inp.value.trim() === '') { alert('Ketik dulu jawabannya ya!'); return; }
   inp.disabled = true; document.getElementById('tombol-cek-esai').classList.add('hidden');
   document.getElementById('status-jawaban').innerHTML = '<div class="info-esai-text">✅ Jawaban tersimpan! Yuk cocokan dengan kunci di bawah:</div>';
+  bunyiNada(new Array(523, 659), 0.2);
   const box = document.getElementById('wadah-pembahasan');
   box.innerHTML = `<strong>🔑 Kunci Jawaban / Pembahasan:</strong>\n${s.b}`; box.classList.remove('hidden');
   document.getElementById('tombol-lanjut').classList.remove('hidden');
@@ -200,7 +265,11 @@ function soalBerikutnya() {
     document.getElementById('area-kuis').classList.add('hidden');
     document.getElementById('area-hasil').classList.remove('hidden');
     document.getElementById('teks-skor').innerText = `Pilihan Ganda: Benar ${skorPG} dari ${totalPG} soal ⭐`;
+    bunyiTepukTangan();
+    bicara('Horeee selesai! Hebat sekali!');
   }
+}
+
 }
 </script>
 </body>
