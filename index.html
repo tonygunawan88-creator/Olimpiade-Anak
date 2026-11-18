@@ -123,40 +123,19 @@ const DB = {
         {t:'pg', q:'20. Temukan gambar yang BERBEDA SENDIRI dari kelompok di bawah ini!\n🍎   🍎   🐟   🍎', o:['Apel ke-1','Apel ke-2','Ikan Biru','Apel ke-3'], j:2, b:'Ikan Biru berbeda sendiri karena merupakan hewan, sedangkan yang lainnya buah apel.'},
         {t:'pg', q:'21. Lanjutkan pola warna bentuk berikut:\n🔴 Merah - 🔵 Biru - 🟡 Kuning - 🔴 Merah - 🔵 Biru - [ ? ]', o:['Lingkaran Merah','Lingkaran Biru','Lingkaran Kuning','Lingkaran Hijau'], j:2, b:'Urutan warnanya Merah, Biru, Kuning. Setelah Biru adalah Lingkaran Kuning.'},
         {t:'pg', q:'22. Di kotak kiri ada 4 apel, di kotak kanan ada 2 apel. Berapa apel yang harus ditambah ke kotak kanan agar sama banyak?\n[ 🍎🍎🍎🍎 ]  =  [ 🍎🍎 + ? ]', o:['1 apel','2 apel','3 apel','4 apel'], j:1, b:'2 apel ditambah 2 apel lagi menjadi 4 apel, sama dengan kotak kiri.'},
-        {t:'pg', q:'23. Siti punya 2 sepatu (1 pasang). Jika ada 3 anak memakai sepatu lengkap, berapa banyak semua sepatu mereka?\n👟👟   👟👟   👟👟', o:['3 sepatu','4 sepatu','5 sepatu','6 sepatu'], j:3, b:'2 + 2 + 2 = 6 sepatu.'}
+        {t:'pg', q:'23. Siti punya 2 sepatu (1 pasang). Jika ada 3 anak memakai sepatu lengkap, berapa banyak semua sepatu mereka?\n??   ??   ??', o:['3 sepatu','4 sepatu','5 sepatu','6 sepatu'], j:3, b:'2 + 2 + 2 = 6 sepatu.'}
       ]
     },
     IPA: { "Paket 1": [{t:'pg', q:'Hewan mana yang punya belalai panjang?', o:['Kucing','Gajah','Kelinci'], j:1, b:'Gajah memiliki belalai panjang.'}] },
     ING: { "Paket 1": [{t:'pg', q:'Apa bahasa Inggrisnya buah Apel?', o:['Banana','Apple','Orange'], j:1, b:'Apple artinya apel.'}] }
   },
-  SD: {"Paket 1 - Olimpiade Matematika": [
-  {t:'pg', q:'1. Hasil dari 45 + 23 – 12 adalah...', o:['56','58','66','68'], j:0, b:'Hitung dari kiri ke kanan ya: 45 + 23 = 68, lalu 68 - 12 = 56.'},
-  {t:'pg', q:'2. Adi memiliki 82 kelereng. Budi memiliki kelereng 15 lebih sedikit dari Adi. Berapa banyak kelereng Budi?', o:['97','77','67','63'], j:2, b:'Karena lebih sedikit, kita kurangi: 82 - 15 = 67 kelereng.'},
-  {t:'pg', q:'3. Perhatikan pola bilangan berikut: 3, 6, 9, 12, A, 18. Nilai dari bilangan A yang tepat adalah...', o:['13','14','15','16'], j:2, b:'Polanya selalu ditambah 3. Jadi setelah 12 adalah 12 + 3 = 15.'},
-  {t:'pg', q:'4. Look at this number sequence: 20, 18, 16, 14, 12, ... What is the next number?', o:['13','11','10','8'], j:2, b:'Angkanya selalu berkurang 2 (hitung mundur genap). Setelah 12 adalah 12 - 2 = 10.'},
-  {t:'pg', q:'5. Aku adalah sebuah bilangan bulat. Jika aku ditambah 25, hasilnya menjadi 60. Bilangan berapakah aku?', o:['35','45','25','85'], j:0, b:'Untuk mencarinya, kita balik hitungannya: 60 - 25 = 35.'},
-  {t:'pg', q:'6. Rumah makan Ibu buka dari pukul 08.00 pagi sampai pukul 04.00 sore. Berapa jam rumah makan tersebut buka?', o:['4 jam','6 jam','8 jam','12 jam'], j:2, b:'Dari pukul 08.00 ke 12.00 siang adalah 4 jam, lalu ke 04.00 sore tambah 4 jam lagi. Totalnya 8 jam.'},
-  {t:'pg', q:'7. Ibu memotong sebuah kue menjadi beberapa bagian sama besar untuk 4 anaknya. Setiap anak mendapatkan seperempat bagian kue. Berapa total potongan kue seluruhnya?', o:['2 potongan','4 potongan','6 potongan','8 potongan'], j:1, b:'Seperempat artinya 1 dari 4 bagian sama besar. Jadi seluruhnya ada 4 potongan kue.'},
-  {t:'pg', q:'8. Roni memiliki selembar uang Rp50.000. Ia membeli sebuah buku cerita seharga Rp22.000 dan pensil seharga Rp5.000. Berapa uang kembalian yang diterima Roni?', o:['Rp23.000','Rp27.000','Rp28.000','Rp33.000'], j:0, b:'Total belanja Roni = Rp22.000 + Rp5.000 = Rp27.000. Kembaliannya = Rp50.000 - Rp27.000 = Rp23.000.'},
-  {t:'pg', q:'9. Which shape has exactly 3 sides and 3 corners?', o:['Rectangle','Circle','Triangle','Square'], j:2, b:'Triangle artinya segitiga, yaitu bangun datar yang punya 3 sisi dan 3 sudut.'},
-  {t:'pg', q:'10. Di sebuah taman terdapat 14 sepeda roda dua dan 5 sepeda roda tiga. Berapa jumlah seluruh roda sepeda di taman tersebut?', o:['19 roda','28 roda','33 roda','43 roda'], j:3, b:'Roda sepeda roda dua: 14 x 2 = 28. Roda sepeda roda tiga: 5 x 3 = 15. Totalnya 28 + 15 = 43 roda.'},
-  {t:'pg', q:'11. Panjang sebuah meja adalah 3 meter. Jika diukur menggunakan penggaris sepanjang 50 cm, maka penggaris tersebut harus diletakkan sebanyak... kali.', o:['3 kali','5 kali','6 kali','60 kali'], j:2, b:'Ingat, 1 meter = 100 cm, jadi 3 meter = 300 cm. Lalu kita bagi: 300 cm : 50 cm = 6 kali.'},
-  {t:'pg', q:'12. Ada dua buah lampu. Lampu merah menyala setiap 2 detik sekali. Lampu hijau menyala setiap 3 detik sekali. Jika kedua lampu menyala bersamaan pada detik ke-0, pada detik ke berapa kedua lampu akan menyala bersamaan lagi?', o:['Detik ke-4','Detik ke-5','Detik ke-6','Detik ke-9'], j:2, b:'Lampu merah menyala di detik 2, 4, 6. Lampu hijau di detik 3, 6. Jadi keduanya menyala bersama lagi pada detik ke-6.'},
-  {t:'pg', q:'13. Siti memiliki pita sepanjang 90 cm. Dayu memiliki pita sepanjang 1 meter. Lani memiliki pita sepanjang 85 cm. Urutan anak dari yang memiliki pita paling panjang adalah...', o:['Dayu, Siti, Lani','Lani, Siti, Dayu','Dayu, Lani, Siti','Siti, Dayu, Lani'], j:0, b:'Pita Dayu 1 meter = 100 cm, Siti 90 cm, dan Lani 85 cm. Dari yang terpanjang adalah Dayu, Siti, Lani.'},
-   {t:'pg', q:'14. Kakak membuat pola susunan manik-manik: merah, kuning, hijau, merah, kuning, hijau, dan seterusnya. Manik-manik pada urutan ke-17 berwarna...', o:['Merah','Kuning','Hijau','Biru'], j:1, b:'Pola berulang setiap 3 warna (merah, kuning, hijau). Urutan ke-15 adalah hijau, ke-16 merah, jadi ke-17 adalah kuning.'},
-  {t:'pg', q:'15. Sebuah persegi memiliki panjang sisi 6 cm. Berapakah keliling dari persegi tersebut jika dihitung dengan menjumlahkan semua sisinya?', o:['12 cm','18 cm','24 cm','36 cm'], j:2, b:'Persegi punya 4 sisi sama panjang. Kelilingnya = 6 + 6 + 6 + 6 = 24 cm.'},
-  {t:'pg', q:'16. Pak Tani memiliki 24 ekor ayam. Setengah dari jumlah ayam tersebut dipindahkan ke kandang baru. Berapa ekor ayam yang tetap berada di kandang lama?', o:['6 ekor','12 ekor','18 ekor','20 ekor'], j:1, b:'Setengah dari 24 adalah 24 dibagi 2, yaitu 12 ekor ayam.'},
-  {t:'pg', q:'17. Di sebuah rak buku, buku matematika berada di sebelah kanan buku sains. Buku bahasa berada di sebelah kanan buku matematika. Buku apakah yang berada di posisi paling kiri?', o:['Buku Matematika','Buku Sains','Buku Bahasa','Tidak bisa ditentukan'], j:1, b:'Urutannya dari kiri ke kanan: Buku Sains, Buku Matematika, Buku Bahasa. Jadi yang paling kiri adalah Buku Sains.'},
-  {t:'pg', q:'18. Sarah has 5 boxes of donuts. Each box contains 6 donuts. She gives 12 donuts to her friends. How many donuts does Sarah have left?', o:['18 donuts','24 donuts','30 donuts','42 donuts'], j:0, b:'Total donat awal = 5 x 6 = 30 donat. Diberikan 12, sisanya = 30 - 12 = 18 donat.'},
-  {t:'pg', q:'19. Jika kemarin adalah hari Rabu, maka 3 hari setelah hari ini adalah hari...', o:['Sabtu','Minggu','Senin','Jumat'], j:1, b:'Kalau kemarin Rabu, berarti hari ini Kamis. Tiga hari setelah Kamis adalah Jumat, Sabtu, lalu Minggu.'},
-  {t:'pg', q:'20. Sebanyak 5 orang anak sedang mengantre di kasir. Budi berada di tengah-tengah antrean tersebut. Di urutan keberapakah posisi Budi dari depan?', o:['Urutan ke-2','Urutan ke-3','Urutan ke-4','Urutan ke-5'], j:1, b:'Dari 5 anak, posisi tengah adalah urutan ke-3 (ada 2 anak di depan Budi dan 2 anak di belakangnya).'},
-  {t:'esai', q:'21. Tuliskan lambang bilangan bulat dari: tujuh puluh empat.', b:'Kunci Jawaban: 74. Angka 7 menempati puluhan dan angka 4 menempati satuan.'},
-  {t:'esai', q:'22. Jumlah dua buah bilangan bulat adalah 15, dan selisihnya adalah 3. Berapakah bilangan yang paling besar di antara keduanya?', b:'Kunci Jawaban: 9. Dua bilangan itu adalah 9 dan 6, karena 9 + 6 = 15 dan 9 - 6 = 3. Bilangan yang paling besar adalah 9.'},
-  {t:'esai', q:'23. A clock shows exactly 03.00 o\'clock. What kind of angle is formed by the two hands of the clock? (Jawab dalam Bahasa Indonesia atau Inggris)', b:'Kunci Jawaban: Sudut Siku-Siku / Right Angle. Pada pukul 03.00, jarum pendek di angka 3 dan jarum panjang di angka 12 membentuk sudut tegak lurus (90 derajat).'},
-  {t:'esai', q:'24. Sebuah bus mula-mula berisi 8 orang penumpang. Di halte A, turun 3 orang dan naik 5 orang. Di halte B, naik lagi 4 orang tanpa ada yang turun. Berapa jumlah penumpang di dalam bus sekarang?', b:'Kunci Jawaban: 14 orang. Hitungannya: 8 - 3 + 5 + 4 = 14 penumpang.'},
-  {t:'esai', q:'25. Perhatikan gambar mental pola susunan segitiga. Pola 1 butuh 3 batang korek api. Pola 2 butuh 5 batang korek api. Pola 3 butuh 7 batang korek api. Berapa banyak batang korek api yang dibutuhkan untuk membuat Pola 5?', b:'Kunci Jawaban: 11 batang korek api. Polanya selalu bertambah 2 batang: Pola 1 (3), Pola 2 (5), Pola 3 (7), Pola 4 (9), dan Pola 5 (11).'}
-]
-                                                                                                                                                                                                   },
+   SD: {
+    MTK: {
+      "Paket 1 - Latihan Dasar": [
+        {t:'pg', q:'1. Hasil dari 45 + 23 - 12 adalah ....', o:['50','56','66','68'], j:1, b:'45 + 23 = 68, lalu 68 - 12 = 56.'},
+        {t:'pg', q:'2. Adi memiliki 82 kelereng. Budi memiliki kelereng 15 lebih sedikit dari Adi. Berapa banyak kelereng Budi?', o:['67','77','87','97'], j:0, b:'82 - 15 = 67 kelereng.'}
+      ]
+    },
     ING: { "Paket 1": [{t:'pg', q:'Today is Monday. Tomorrow is ...', o:['Sunday','Tuesday','Friday'], j:1, b:'Setelah Senin (Monday) adalah Selasa (Tuesday).'}] },
     IPA: {
       "Paket 1 - OMNAS 16": [
@@ -175,14 +154,46 @@ const DB = {
         {t:'pg', q:'13. Benda yang dapat menghasilkan bayangan ketika terkena cahaya adalah ....', o:['Benda bening','Benda yang menghalangi cahaya','Udara','Cahaya itu sendiri'], j:1, b:'Bayangan muncul saat cahaya terhalang benda tidak tembus cahaya.'},
         {t:'pg', q:'14. Ketika tangan didekatkan ke api unggun, tangan terasa hangat. Hal ini menunjukkan bahwa api menghasilkan ....', o:['Bunyi','Panas','Air','Angin'], j:1, b:'Api menghasilkan energi panas.'},
         {t:'pg', q:'15. Pada siang hari, matahari tampak berada di langit. Pada malam hari, benda langit yang sering terlihat adalah ....', o:['Matahari dan pelangi','Bulan dan bintang','Awan dan matahari','Pelangi dan matahari'], j:1, b:'Bulan dan bintang terlihat pada malam hari.'},
+        {t:'pg', q:'16. Bulan terlihat bersinar pada malam hari karena ....', o:['Bulan menghasilkan cahaya sendiri','Bulan memantulkan cahaya matahari','Bulan terbuat dari api','Bulan memiliki lampu'], j:1, b:'Bulan memantulkan cahaya dari matahari.'},
+        {t:'pg', q:'17. Benda langit yang menjadi pusat tata surya adalah ....', o:['Bumi','Bulan','Matahari','Bintang'], j:2, b:'Matahari adalah pusat tata surya.'},
+        {t:'pg', q:'18. Peristiwa siang dan malam terjadi karena ....', o:['Bumi berputar pada porosnya','Bulan mengelilingi matahari','Matahari mengelilingi bumi','Bintang berpindah tempat'], j:0, b:'Rotasi bumi menyebabkan siang dan malam.'},
+        {t:'pg', q:'19. Perhatikan benda-benda berikut:\n- Batu\n- Kucing\n- Pohon mangga\n- Sepeda\n\nBenda yang termasuk makhluk hidup adalah ....', o:['Baju dan sepeda','Kucing dan pohon mangga','Batu dan pohon mangga','Sepeda dan kucing'], j:1, b:'Kucing (hewan) dan pohon mangga (tumbuhan) adalah makhluk hidup.'},
+        {t:'pg', q:'20. Andi meletakkan dua tanaman yang sama. Tanaman A diberi air secara teratur, sedangkan tanaman B tidak diberi air. Setelah beberapa hari, tanaman B layu.\n\nKesimpulan yang tepat adalah ....', o:['Tanaman tidak membutuhkan air','Air membantu tanaman tetap hidup','Tanaman hanya membutuhkan batu','Air membuat tanaman mati'], j:1, b:'Air dibutuhkan tanaman agar tetap hidup.'},
+        {t:'pg', q:'21. Perhatikan urutan berikut: Es batu -> Air -> Uap air. Perubahan wujud dari air menjadi uap air disebut ....', o:['Membeku','Mencair','Menguap','Mengembun'], j:2, b:'Cair menjadi gas disebut menguap.'},
+        {t:'pg', q:'22. Benda berikut yang paling baik digunakan untuk melihat benda di baliknya adalah ....', o:['Kayu','Kardus','Kaca bening','Batu'], j:2, b:'Kaca bening tembus cahaya.'},
+        {t:'pg', q:'23. Budi memukul dua benda. Benda pertama menghasilkan suara nyaring, sedangkan benda kedua menghasilkan suara pelan.\n\nIndra yang digunakan untuk membedakan kedua suara tersebut adalah ....', o:['Penglihatan','Pendengaran','Penciuman','Peraba'], j:1, b:'Telinga sebagai indra pendengaran membedakan bunyi.'},
+        {t:'pg', q:'24. (ENGLISH) Which part of the body is used to hear sounds?', o:['Eyes','Nose','Ears','Hands'], j:2, b:'Ears artinya telinga untuk mendengar.'},
+        {t:'pg', q:'25. (ENGLISH) Which one is a living thing?', o:['Rock','Chair','Tree','Pencil'], j:2, b:'Tree (pohon) adalah makhluk hidup.'},
+        {t:'esai', q:'ESAI 1. Sebutkan lima pancaindra manusia beserta kegunaan masing-masing!', b:'1. Mata (penglihatan), 2. Telinga (pendengaran), 3. Hidung (penciuman), 4. Lidah (pengecap), 5. Kulit (peraba).'},
+        {t:'esai', q:'ESAI 2. Tuliskan empat ciri-ciri makhluk hidup!', b:'Bernapas, butuh makan/air, bergerak, tumbuh & berkembang biak.'},
+        {t:'esai', q:'ESAI 3. Mengapa tanaman membutuhkan air dan cahaya matahari untuk tumbuh?', b:'Untuk melakukan fotosintesis (membuat makanan sendiri) agar tumbuh subur.'},
+        {t:'esai', q:'ESAI 4. Jelaskan mengapa kita dapat melihat bayangan tubuh ketika berdiri di bawah sinar matahari!', b:'Karena cahaya merambat lurus dan terhalang oleh tubuh kita yang tidak tembus cahaya.'},
+        {t:'esai', q:'ESAI 5. Perhatikan percobaan es batu wadah A di bawah matahari dan wadah B di ruangan sejuk. Es batu manakah yang lebih cepat mencair? Mengapa?', b:'Wadah A lebih cepat mencair karena mendapat energi panas langsung dari matahari.'}
+      ],
+      "Paket 2 - Sains HOTS": [
+        {t:'pg', q:'1. Rani menutup mata, kemudian ibunya memberikan sebuah benda berbentuk bulat dan beraroma harum. Rani dapat mengetahui aroma benda tersebut tanpa melihatnya. Indra yang membantu Rani adalah ....', o:['Penglihatan','Penciuman','Pendengaran','Peraba'], j:1, b:'Hidung merupakan indra penciuman yang berfungsi mengenali bau atau aroma benda meskipun mata tertutup.'},
+        {t:'pg', q:'2. Edo memegang gelas berisi air hangat. Setelah beberapa saat, tangannya merasakan suhu gelas tersebut. Bagian tubuh yang menerima rangsangan panas adalah ....', o:['Kulit','Hidung','Lidah','Mata'], j:0, b:'Kulit adalah indra peraba yang peka terhadap rangsangan panas, dingin, kasar, dan halus.'},
+        {t:'pg', q:'3. Beni sedang makan permen sambil menutup hidungnya. Ia merasa rasa dan aroma permen tidak senikmat biasanya. Kesimpulan yang paling tepat adalah ....', o:['Hidung hanya digunakan untuk bernapas','Indra penciuman dapat membantu mengenali rasa makanan','Mata membantu merasakan makanan','Telinga menentukan rasa makanan'], j:1, b:'Indra penciuman (hidung) bekerja sama dengan indra pengecap (lidah) sehingga kita bisa mengenali aroma dan kelezatan makanan.'},
+        {t:'pg', q:'4. Seekor ayam bertelur, sedangkan seekor kucing melahirkan anaknya. Meskipun caranya berbeda, kedua hewan tersebut memiliki persamaan, yaitu ....', o:['Sama-sama berkembang biak','Sama-sama bertelur','Sama-sama menyusui anaknya','Sama-sama hidup di air'], j:0, b:'Bertelur dan melahirkan adalah cara makhluk hidup berkembang biak untuk menghasilkan keturunan.'},
+        {t:'pg', q:'5. Dita mengamati dua tanaman yang sama. Tanaman A disiram setiap hari, sedangkan tanaman B tidak pernah disiram. Setelah beberapa hari, tanaman B layu. Jika tanaman B terus tidak mendapatkan air, kemungkinan yang terjadi adalah ....', o:['Tumbuh semakin subur','Menghasilkan lebih banyak daun','Mengering dan akhirnya mati','Berubah menjadi batu'], j:2, b:'Air sangat dibutuhkan tanaman untuk bertahan hidup. Tanpa air, tanaman akan layu, mengering, lalu mati.'},
+        {t:'pg', q:'6. Perhatikan empat benda berikut: (1) Kucing, (2) Mobil mainan, (3) Pohon mangga, (4) Boneka. Pasangan yang memiliki ciri dapat tumbuh dan berkembang adalah ....', o:['1 dan 2','2 dan 4','1 dan 3','3 dan 4'], j:2, b:'Kucing (hewan) dan pohon mangga (tumbuhan) adalah makhluk hidup yang dapat tumbuh dan berkembang, sedangkan mobil mainan dan boneka adalah benda mati.'},
+         {t:'pg', q:'7. Ayah menyalakan kipas angin menggunakan listrik. Ketika listrik mati, kipas berhenti berputar. Hal ini menunjukkan bahwa kipas angin membutuhkan ....', o:['Energi cahaya','Energi listrik','Energi bunyi','Energi makanan'], j:1, b:'Kipas angin mengubah energi listrik menjadi energi gerak untuk memutar baling-balingnya.'},
+        {t:'pg', q:'8. Siti menggosokkan kedua telapak tangannya dengan cepat. Setelah beberapa saat, tangannya terasa hangat. Peristiwa tersebut menunjukkan bahwa ....', o:['Gerakan dapat menghasilkan panas','Panas selalu berasal dari matahari','Tangan menghasilkan air','Gerakan menghilangkan energi'], j:0, b:'Gesekan atau gerakan dua benda yang saling bersentuhan dapat mengubah energi gerak menjadi energi panas.'},
+        {t:'pg', q:'9. Perhatikan kegiatan berikut: anak berlari, lampu menyala, radio berbunyi, setrika menjadi panas. Kegiatan yang paling jelas menunjukkan perubahan energi listrik menjadi energi bunyi adalah ....', o:['Anak berlari','Lampu menyala','Radio berbunyi','Setrika menjadi panas'], j:2, b:'Radio menggunakan energi listrik dan mengubahnya menjadi energi bunyi yang bisa kita dengar.'},
+        {t:'pg', q:'10. Ibu memasak air menggunakan kompor. Setelah beberapa menit, muncul uap dari panci. Jika air terus dipanaskan, perubahan yang terjadi adalah ....', o:['Air berubah menjadi es','Air berubah menjadi uap','Air berubah menjadi minyak','Air berubah menjadi batu'], j:1, b:'Pemanasan terus-menerus membuat air mendidih dan menguap (berubah wujud dari cair menjadi gas/uap air).'},
+        {t:'pg', q:'11. Andi mempunyai dua es batu dengan ukuran sama. Es pertama diletakkan di bawah sinar matahari, sedangkan es kedua diletakkan di dalam lemari pendingin. Es yang lebih cepat mencair adalah ....', o:['Es pertama, karena menerima panas lebih banyak','Es kedua, karena berada di tempat dingin','Keduanya pasti mencair dengan waktu sama','Keduanya tidak akan mencair'], j:0, b:'Es pertama menerima energi panas langsung dari sinar matahari sehingga lebih cepat mencair daripada es di tempat dingin.'},
+        {t:'pg', q:'12. Pada pagi hari, bagian luar gelas berisi air es menjadi basah meskipun tidak ada air yang tumpah. Peristiwa tersebut terjadi karena ....', o:['Air dari dalam gelas merembes keluar','Uap air di udara berubah menjadi titik-titik air','Gelas menghasilkan air sendiri','Es berubah menjadi udara'], j:1, b:'Uap air di udara sekitar gelas yang dingin mengalami pengembunan dan berubah menjadi titik-titik air di dinding luar gelas.'},
+        {t:'pg', q:'13. Budi berdiri di bawah sinar matahari dan melihat bayangannya di tanah. Ketika Budi berpindah ke tempat yang teduh, bayangannya menjadi kurang jelas. Penyebabnya adalah ....', o:['Bayangan membutuhkan cahaya dan benda yang menghalangi cahaya','Bayangan merupakan benda hidup','Bayangan dapat bergerak sendiri','Bayangan berasal dari tanah'], j:0, b:'Bayangan terbentuk dengan jelas apabila ada sumber cahaya terang yang terhalang oleh benda tidak tembus cahaya.'},
+        {t:'pg', q:'14. Ani memiliki tiga benda: kaca bening, karton, dan plastik buram. Ia ingin melihat gambar yang berada di balik salah satu benda tersebut dengan jelas. Benda yang sebaiknya dipilih adalah ....', o:['Karton','Plastik buram','Kaca bening','Semua benda sama'], j:2, b:'Kaca bening bersifat tembus cahaya (transparan) sehingga gambar di baliknya dapat terlihat dengan jelas.'},
+        {t:'pg', q:'15. Pada siang hari, bayangan tiang terlihat lebih pendek dibandingkan bayangan pada pagi atau sore hari dalam kondisi tertentu. Hal ini berkaitan dengan ....', o:['Perubahan posisi semu matahari di langit','Tiang semakin pendek','Tanah semakin tinggi','Cahaya matahari menghilang'], j:0, b:'Posisi matahari yang tampak tinggi tepat di atas pada siang hari membuat bayangan benda menjadi lebih pendek dibanding saat matahari rendah di pagi atau sore hari.'},
         {t:'pg', q:'16. Raka melihat Bulan pada malam hari. Beberapa malam kemudian, bentuk Bulan yang terlihat berbeda. Kesimpulan yang tepat adalah ....', o:['Bulan berubah menjadi benda lain','Bentuk bagian Bulan yang terkena cahaya matahari dan terlihat dari Bumi berubah','Bulan mati pada malam tertentu','Bulan menghasilkan cahaya yang semakin besar'], j:1, b:'Bentuk Bulan tampak berubah-ubah (fase bulan) karena perubahan posisi Bulan saat mengelilingi Bumi sehingga bagian yang memantulkan cahaya matahari terlihat berbeda.'},
         {t:'pg', q:'17. Jika Matahari tiba-tiba tidak memberikan cahaya kepada Bumi, keadaan yang paling mungkin terjadi adalah ....', o:['Bumi menjadi lebih terang','Bumi menjadi gelap','Bintang berhenti ada','Bulan berubah menjadi Matahari'], j:1, b:'Matahari adalah sumber cahaya utama bagi Bumi. Tanpa cahaya Matahari, seluruh Bumi akan menjadi gelap gulita dan dingin.'},
         {t:'pg', q:'18. Bumi berputar pada porosnya. Ketika Indonesia mengalami siang hari, beberapa wilayah di bagian lain Bumi dapat mengalami malam hari. Mengapa hal tersebut terjadi?', o:['Bumi memiliki bagian yang menghadap Matahari dan bagian yang membelakanginya','Matahari hanya menyinari Indonesia','Bulan menutupi seluruh Bumi','Matahari mengelilingi Indonesia'], j:0, b:'Karena bentuk Bumi bulat dan berputar pada porosnya (rotasi), sisi yang menghadap Matahari mengalami siang, sedangkan sisi sebaliknya mengalami malam.'},
         {t:'pg', q:'19. Perhatikan hasil pengamatan berikut: Ikan bergerak dan membutuhkan makanan; batu tidak tumbuh; pohon tumbuh dan membutuhkan air; sepeda bergerak jika dikayuh. Berdasarkan pengamatan tersebut, pasangan makhluk hidup adalah ....', o:['Ikan dan pohon','Batu dan sepeda','Ikan dan sepeda','Pohon dan batu'], j:0, b:'Ikan dan pohon menunjukkan ciri makhluk hidup seperti tumbuh, bergerak sendiri, dan membutuhkan makanan serta air.'},
         {t:'pg', q:'20. Lala ingin mengetahui apakah cahaya matahari memengaruhi pertumbuhan tanaman. Ia menyiapkan dua tanaman yang sama. Keduanya disiram dengan jumlah air yang sama. Tanaman A diletakkan di tempat terang, sedangkan tanaman B di tempat gelap. Hal yang harus diamati Lala adalah ....', o:['Warna dan pertumbuhan kedua tanaman','Harga kedua pot','Ukuran meja tempat tanaman diletakkan','Jumlah mainan di sekitar tanaman'], j:0, b:'Untuk melihat pengaruh cahaya matahari, Lala perlu mengamati perbedaan warna daun dan tinggi pertumbuhan kedua tanaman tersebut.'},
-        {t:'pg', q:'21. Dalam percobaan, sebuah sendok logam dan sendok plastik dimasukkan ke dalam air hangat. Setelah beberapa saat, sendok logam terasa lebih hangat ketika disentuh pada bagian pegangannya. Kesimpulan yang paling tepat adalah ....', o:['Logam lebih mudah menghantarkan panas daripada plastik','Plastik menghasilkan api','Logam tidak dapat menerima panas','Air hangat berubah menjadi logam'], j:0, b:'Logam merupakan penghantar panas (konduktor) yang baik sehingga panas dari air hangat cepat merambat ke pegangan sendok.'},
+         {t:'pg', q:'21. Dalam percobaan, sebuah sendok logam dan sendok plastik dimasukkan ke dalam air hangat. Setelah beberapa saat, sendok logam terasa lebih hangat ketika disentuh pada bagian pegangannya. Kesimpulan yang paling tepat adalah ....', o:['Logam lebih mudah menghantarkan panas daripada plastik','Plastik menghasilkan api','Logam tidak dapat menerima panas','Air hangat berubah menjadi logam'], j:0, b:'Logam merupakan penghantar panas (konduktor) yang baik sehingga panas dari air hangat cepat merambat ke pegangan sendok.'},
         {t:'pg', q:'22. Tono ingin mengetahui benda mana yang paling cepat mengeringkan pakaian. Ia menjemur dua kain basah dengan ukuran sama. Kain A diletakkan di bawah matahari, sedangkan kain B diletakkan di tempat teduh. Agar percobaan adil, hal yang harus dibuat sama adalah ....', o:['Ukuran dan jumlah air pada kedua kain','Warna tempat menjemur saja','Nama kedua kain','Posisi rumah terhadap jalan'], j:0, b:'Dalam percobaan yang adil, faktor lain selain tempat menjemur harus dibuat sama, yaitu ukuran kain dan banyaknya air pada kain.'},
-        {t:'pg', q:'23. Seorang anak mengamati bahwa tanaman yang diletakkan dekat jendela tumbuh condong ke arah datangnya cahaya. Penjelasan yang paling tepat adalah ....', o:['Makhluk hidup peka terhadap rangsangan. Batang tanaman merespons rangsangan cahaya matahari dengan tumbuh membengkok ke arah datangnya cahaya.'], j:0, b:'Makhluk hidup peka terhadap rangsangan. Batang tanaman merespons rangsangan cahaya matahari dengan tumbuh membengkok ke arah datangnya cahaya.'},
+        {t:'pg', q:'23. Seorang anak mengamati bahwa tanaman yang diletakkan dekat jendela tumbuh condong ke arah datangnya cahaya. Penjelasan yang paling tepat adalah ....', o:['Tanaman dapat merespons arah datangnya cahaya','Tanaman ingin keluar dari pot','Tanaman dapat berjalan','Tanaman tidak membutuhkan cahaya'], j:0, b:'Makhluk hidup peka terhadap rangsangan. Batang tanaman merespons rangsangan cahaya matahari dengan tumbuh membengkok ke arah datangnya cahaya.'},
         {t:'pg', q:'24. (ENGLISH) Tom puts an ice cube under the hot sun. What will happen to the ice cube?', o:['It will become harder','It will melt','It will become a stone','It will disappear forever'], j:1, b:'"It will melt" artinya es batu akan mencair karena terkena panas terik matahari.'},
         {t:'pg', q:'25. (ENGLISH) Lisa sees a plant with yellow leaves and dry soil. What should she do first?', o:['Give the plant some water','Put the plant in a dark box','Cut all the roots','Cover the plant with plastic'], j:0, b:'Tanah kering (dry soil) dan daun menguning menandakan tanaman kekurangan air, sehingga Lisa harus menyiramnya (give the plant some water).'},
         {t:'esai', q:'ESAI 1. Rina menutup matanya dan diminta mengenali tiga benda: bunga, lonceng, dan es batu.\na. Indra apa yang digunakan untuk mengenali bunga?\nb. Indra apa yang digunakan untuk mengenali suara lonceng?\nc. Indra apa yang digunakan untuk merasakan dinginnya es batu?', b:'a. Indra penciuman (hidung) untuk mencium aroma bunga.\nb. Indra pendengaran (telinga) untuk mendengar bunyi lonceng.\nc. Indra peraba (kulit) untuk merasakan suhu dingin es batu.'},
@@ -194,8 +205,7 @@ const DB = {
     }
   }
 };
-
-let semuaData = [], anakAktif = '', mapelAktif = '', daftarSoal = [], indeks = 0, skorPG = 0, totalPG = 0;
+ let semuaData = [], anakAktif = '', mapelAktif = '', daftarSoal = [], indeks = 0, skorPG = 0, totalPG = 0;
 
 function bicara(teks) {
   if ('speechSynthesis' in window) {
@@ -234,9 +244,8 @@ function bunyiTepukTangan() {
     noise.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
     noise.start(waktu);
   }
-}
-
-function mulaiSapaan() {
+       }
+ function mulaiSapaan() {
   if (audioCtx.state === 'suspended') audioCtx.resume();
   document.getElementById('popup-awal').classList.add('hidden');
   document.getElementById('menu-anak').classList.remove('hidden');
@@ -248,7 +257,7 @@ function pilihAnak(profil, nama) {
   bicara(`Oke, selamat datang ${nama}! Yuk kita mulai belajar!`);
   document.getElementById('menu-anak').classList.add('hidden');
   document.getElementById('menu-mapel').classList.remove('hidden');
-   document.getElementById('judul-anak').innerText = profil === 'TK' ? '🧸 Menu Belajar ZIO (TK)' : '🚀 Menu Belajar ECA (SD 1-2)';
+  document.getElementById('judul-anak').innerText = profil === 'TK' ? '🧸 Menu Belajar ZIO (TK)' : '🚀 Menu Belajar ECA (SD 1-2)';
 }
 
 function kembaliKeAnak() {
@@ -291,9 +300,7 @@ function pilihMapel(mapel) {
     btn.onclick = () => mulaiKuis(namaPaket);
     wadah.appendChild(btn);
   });
-}
-
-function mulaiKuis(namaPaket) {
+ }function mulaiKuis(namaPaket) {
   daftarSoal = DB[anakAktif][mapelAktif][namaPaket];
   indeks = 0; skorPG = 0; totalPG = daftarSoal.filter(s => s.t === 'pg' || s.t === 'garis').length;
   document.getElementById('menu-paket').classList.add('hidden');
@@ -311,7 +318,7 @@ function tampilkanSoal() {
   const wOpsi = document.getElementById('wadah-opsi'), wEsai = document.getElementById('wadah-esai'), wGaris = document.getElementById('wadah-garis'), badge = document.getElementById('badge-tipe');
   wOpsi.classList.add('hidden'); wEsai.classList.add('hidden'); wGaris.classList.add('hidden');
 
-  if (s.t === 'pg') {
+  if (s.t === 'pg' || s.tipe === 'pg') {
     badge.innerText = 'Pilihan Ganda'; wOpsi.classList.remove('hidden'); wOpsi.innerHTML = '';
     const huruf = ['A. ', 'B. ', 'C. ', 'D. '];
     s.o.forEach((teks, i) => {
@@ -320,7 +327,7 @@ function tampilkanSoal() {
       btn.onclick = () => cekPG(i, btn);
       wOpsi.appendChild(btn);
     });
-  } else if (s.t === 'garis') {
+  } else if (s.t === 'garis' || s.tipe === 'garis') {
     badge.innerText = 'Tarik Garis (Hubungkan)';
     wGaris.classList.remove('hidden');
     buatSoalGaris(s, wGaris);
@@ -388,7 +395,7 @@ function gambarGarisSVG(elKiri, elKanan, warna) {
   const r1 = elKiri.querySelector('.titik').getBoundingClientRect();
   const r2 = elKanan.querySelector('.titik').getBoundingClientRect();
   const svg = document.getElementById('svg-garis');
-  const line = document.createElementNS('http://w3.org', 'line');
+  const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
   line.setAttribute('x1', r1.left - area.left + 7);
   line.setAttribute('y1', r1.top - area.top + 7);
   line.setAttribute('x2', r2.left - area.left + 7);
@@ -443,3 +450,5 @@ function soalBerikutnya() {
 </script>
 </body>
 </html>
+
+ 
