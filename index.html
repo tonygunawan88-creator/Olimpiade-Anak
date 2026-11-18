@@ -28,6 +28,15 @@
   .info-esai-text { color: #118ab2; font-weight: bold; font-size: 18px; margin-top: 12px; }
   .badge-tipe { display: inline-block; background: #e0fbfc; color: #118ab2; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 8px; }
   .hidden { display: none; }
+   .match-wrap { position: relative; display: flex; justify-content: space-between; margin: 15px 0; user-select: none; }
+  .match-col { display: flex; flex-direction: column; gap: 14px; width: 42%; z-index: 2; }
+  .match-box { background: #fffbeb; border: 3px solid #fbbf24; border-radius: 14px; padding: 12px; font-size: 20px; font-weight: bold; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+  .match-box.kanan { background: #f0fdf4; border-color: #4ade80; flex-direction: row-reverse; font-size: 18px; }
+  .match-box.pilih { box-shadow: 0 0 0 4px #ff6b6b; transform: scale(1.04); }
+  .match-box.cocok { background: #dcfce7; border-color: #22c55e; opacity: 0.85; cursor: default; }
+  .titik { width: 14px; height: 14px; background: #ff6b6b; border-radius: 50%; display: inline-block; }
+  .match-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+ 
 </style>
 </head>
 <body>
@@ -71,6 +80,8 @@
   <div id="badge-tipe" class="badge-tipe"></div>
   <div class="question" id="teks-soal"></div>
   <div id="wadah-opsi"></div>
+  <div id="wadah-garis" class="hidden"></div>
+ 
   <div id="wadah-esai" class="hidden">
     <textarea id="input-jawaban-esai" class="input-esai" rows="4" placeholder="Ketik jawabanmu di sini..."></textarea>
     <button id="tombol-cek-esai" class="btn btn-cek" onclick="cekJawabanEsai()">Lihat Kunci & Pembahasan ✔</button>
@@ -88,8 +99,34 @@
 </div>
 <script>
 const DB = {
-  TK: {
-    MTK: { "Paket 1": [{t:'pg', q:'🍎 + 🍎 + 🍎 = Berapa jumlah apel?', o:['2 Apel','3 Apel','4 Apel'], j:1, b:'1 + 1 + 1 = 3 apel.'}] },
+  TK: {    MTK: {
+      "Paket 1 - Ceria Berhitung": [
+        {t:'pg', q:'1. Hitung ada berapa banyak apel merah segar di bawah ini?\n🍎 🍎 🍎 🍎 🍎 🍎 🍎', o:['5','6','7','8'], j:2, b:'Hitung satu per satu: ada 7 buah apel merah.'},
+        {t:'pg', q:'2. Di kolam ada ikan biru dan oranye. Berapa jumlah IKAN BIRU saja?\n🐟 🐟 🐟 🐠 🐠 🐟 🐟', o:['4','5','6','7'], j:1, b:'Ikan biru ada 3 di kiri dan 2 di kanan, jumlahnya 5 ekor.'},
+        {t:'pg', q:'3. Pohon apel mana yang buah apelnya PALING BANYAK?\n🌳 Pohon A (3 apel)\n🌳 Pohon B (6 apel)\n🌳 Pohon C (4 apel)', o:['Pohon A','Pohon B','Pohon C','Semua sama'], j:1, b:'Pohon B memiliki 6 buah apel, paling banyak di antara ketiganya.'},
+        {t:'pg', q:'4. Lengkapi urutan angka kereta bintang berikut!\n🚂 [ 4 ] ➔ [ 5 ] ➔ [ ? ] ➔ [ 7 ] ➔ [ 8 ]', o:['3','6','9','10'], j:1, b:'Urutan angka setelah 5 dan sebelum 7 adalah angka 6.'},
+        {t:'garis', q:'5. (Tarik Garis) Ketuk ANGKA di kiri, lalu ketuk JUMLAH GAMBAR yang cocok di kanan!', pasang:[{kiri:'3', kanan:'🍓 🍓 🍓', warna:'#ef4444'}, {kiri:'1', kanan:'🐝', warna:'#3b82f6'}, {kiri:'5', kanan:'🍩 🍩 🍩 🍩 🍩', warna:'#22c55e'}], b:'3 cocok dengan 3 stroberi, 1 dengan 1 lebah, dan 5 dengan 5 donat.'},
+        {t:'pg', q:'6. Rani meniup balon warna-warni. Berapa jumlah semua balon Rani?\n🎈🎈🎈🎈🎈 🎈🎈🎈🎈', o:['7','8','9','10'], j:2, b:'5 balon merah ditambah 4 balon biru sama dengan 9 balon.'},
+        {t:'pg', q:'7. Budi punya 3 bintang lalu Ibu memberi 4 bintang lagi. Berapa jumlah bintang Budi sekarang?\n⭐⭐⭐ + ⭐⭐⭐⭐', o:['6','7','8','9'], j:1, b:'3 bintang ditambah 4 bintang sama dengan 7 bintang.'},
+        {t:'pg', q:'8. Ada 6 permen manis. Adik memakan 2 permen (❌❌). Berapa sisa permen sekarang?\n🍬🍬🍬🍬 ❌❌', o:['2','3','4','5'], j:2, b:'6 permen dikurangi 2 permen yang dimakan sisanya 4 permen.'},
+        {t:'pg', q:'9. Hitung jumlah titik pada kartu domino berikut! (Atas 5 + Bawah 3)\n🎲 [ 5 | 3 ]', o:['7','8','9','10'], j:1, b:'5 titik di atas ditambah 3 titik di bawah sama dengan 8 titik.'},
+        {t:'garis', q:'10. (Tarik Garis) Hubungkan ANGKA di kiri dengan JUMLAH BINTANG di kanan!', pasang:[{kiri:'2', kanan:'⭐⭐', warna:'#f97316'}, {kiri:'4', kanan:'⭐⭐⭐⭐', warna:'#8b5cf6'}, {kiri:'6', kanan:'⭐⭐⭐⭐⭐⭐', warna:'#06b6d4'}], b:'2 cocok dengan 2 bintang, 4 dengan 4 bintang, dan 6 dengan 6 bintang.'},
+        {t:'pg', q:'11. Di taman mekar 4 bunga pink dan 4 bunga ungu. Berapa semua bunga di taman?\n🌸🌸🌸🌸 + 🪻🪻🪻🪻', o:['6','7','8','9'], j:2, b:'4 bunga pink ditambah 4 bunga ungu sama dengan 8 bunga.'},
+        {t:'pg', q:'12. Di parkiran ada 5 mobil, lalu 3 mobil pergi pulang. Berapa sisa mobil di parkiran?\n🚗🚗  |  🚙🚙🚙 ➔ 💨', o:['1','2','3','4'], j:1, b:'5 mobil dikurangi 3 mobil yang pergi sisanya 2 mobil.'},
+        {t:'pg', q:'13. Bentuk geometri mana yang disebut SEGITIGA?\n(1) 🔴   (2) 🟩   (3) 🔺   (4) 🔷', o:['Gambar (1)','Gambar (2)','Gambar (3)','Gambar (4)'], j:2, b:'Gambar (3) 🔺 adalah segitiga karena memiliki 3 sisi dan 3 sudut.'},
+        {t:'pg', q:'14. Perhatikan ukuran garis pensil berikut! Pensil manakah yang PALING PANJANG?\nA: ✏️✏️\nB: ✏️✏️✏️✏️\nC: ✏️✏️✏️\nD: ✏️', o:['Pensil A','Pensil B','Pensil C','Pensil D'], j:1, b:'Pensil B memiliki ukuran paling panjang dibandingkan A, C, dan D.'},
+        {t:'pg', q:'15. Hitung ada berapa banyak LINGKARAN MERAH saja pada bentuk berikut?\n🔴 🟦 🔴 🟡 🟢 🔴 🔴', o:['3','4','5','6'], j:1, b:'Lingkaran merah ada 4 buah (kotak biru, segitiga kuning, dan lingkaran hijau tidak dihitung).'},
+        {t:'pg', q:'16. Mobil manakah yang berukuran PALING KECIL?\nMobil 1: 🚗 (Besar)\nMobil 2: 🚕 (Kecil)\nMobil 3: 🚙 (Sedang)', o:['Mobil 1','Mobil 2','Mobil 3','Semua sama'], j:1, b:'Mobil 2 berukuran paling kecil di antara ketiganya.'},
+        {t:'pg', q:'17. Lihat jam dinding! Jarum pendek menunjuk angka 3, jarum panjang ke angka 12. Jam berapa sekarang?\n🕒', o:['Jam 12','Jam 3','Jam 6','Jam 9'], j:1, b:'Jarum pendek di angka 3 dan jarum panjang di angka 12 menunjukkan pukul 3 tepat.'},
+        {t:'pg', q:'18. Perhatikan pola gambar berikut! Gambar apa untuk mengisi kotak [ ? ]?\n🍎 ➔ ⭐ ➔ 🍎 ➔ ⭐ ➔ 🍎 ➔ [ ? ]', o:['Apel Merah','Bintang Kuning','Ikan Biru','Bunga Pink'], j:1, b:'Polanya bergantian Apel lalu Bintang. Setelah Apel pasti Bintang Kuning.'},
+        {t:'garis', q:'19. (Tarik Garis) Cocokkan ANGKA di kiri dengan JUMLAH BUAH di kanan!', pasang:[{kiri:'4', kanan:'🍌🍌🍌🍌', warna:'#eab308'}, {kiri:'2', kanan:'🍉🍉', warna:'#10b981'}, {kiri:'5', kanan:'🍒🍒🍒🍒🍒', warna:'#ec4899'}], b:'4 cocok dengan 4 pisang, 2 dengan 2 semangka, dan 5 dengan 5 ceri.'},
+        {t:'pg', q:'20. Temukan gambar yang BERBEDA SENDIRI dari kelompok di bawah ini!\n🍎   🍎   🐟   🍎', o:['Apel ke-1','Apel ke-2','Ikan Biru','Apel ke-3'], j:2, b:'Ikan Biru berbeda sendiri karena merupakan hewan, sedangkan yang lainnya buah apel.'},
+        {t:'pg', q:'21. Lanjutkan pola warna bentuk berikut:\n🔴 Merah - 🔵 Biru - 🟡 Kuning - 🔴 Merah - 🔵 Biru - [ ? ]', o:['Lingkaran Merah','Lingkaran Biru','Lingkaran Kuning','Lingkaran Hijau'], j:2, b:'Urutan warnanya Merah, Biru, Kuning. Setelah Biru adalah Lingkaran Kuning.'},
+        {t:'pg', q:'22. Di kotak kiri ada 4 apel, di kotak kanan ada 2 apel. Berapa apel yang harus ditambah ke kotak kanan agar sama banyak?\n[ 🍎🍎🍎🍎 ]  =  [ 🍎🍎 + ? ]', o:['1 apel','2 apel','3 apel','4 apel'], j:1, b:'2 apel ditambah 2 apel lagi menjadi 4 apel, sama dengan kotak kiri.'},
+        {t:'pg', q:'23. Siti punya 2 sepatu (1 pasang). Jika ada 3 anak memakai sepatu lengkap, berapa banyak semua sepatu mereka?\n👟👟   👟👟   👟👟', o:['3 sepatu','4 sepatu','5 sepatu','6 sepatu'], j:3, b:'2 + 2 + 2 = 6 sepatu.'}
+      ]
+    },
+,
     IPA: { "Paket 1": [{t:'pg', q:'Hewan mana yang punya belalai panjang?', o:['Kucing','Gajah','Kelinci'], j:1, b:'Gajah memiliki belalai panjang.'}] },
     ING: { "Paket 1": [{t:'pg', q:'Apa bahasa Inggrisnya buah Apel?', o:['Banana','Apple','Orange'], j:1, b:'Apple artinya apel.'}] }
   },
@@ -278,9 +315,11 @@ function tampilkanSoal() {
   document.getElementById('status-jawaban').innerHTML = '';
   document.getElementById('wadah-pembahasan').classList.add('hidden');
   document.getElementById('tombol-lanjut').classList.add('hidden');
-  const wOpsi = document.getElementById('wadah-opsi'), wEsai = document.getElementById('wadah-esai'), badge = document.getElementById('badge-tipe');
+  const wOpsi = document.getElementById('wadah-opsi'), wEsai = document.getElementById('wadah-esai'), wGaris = document.getElementById('wadah-garis'), badge = document.getElementById('badge-tipe');
+  wOpsi.classList.add('hidden'); wEsai.classList.add('hidden'); wGaris.classList.add('hidden');
+
   if (s.t === 'pg') {
-    badge.innerText = 'Pilihan Ganda'; wOpsi.classList.remove('hidden'); wEsai.classList.add('hidden'); wOpsi.innerHTML = '';
+    badge.innerText = 'Pilihan Ganda'; wOpsi.classList.remove('hidden'); wOpsi.innerHTML = '';
     const huruf = ['A. ', 'B. ', 'C. ', 'D. '];
     s.o.forEach((teks, i) => {
       const btn = document.createElement('button');
@@ -288,14 +327,85 @@ function tampilkanSoal() {
       btn.onclick = () => cekPG(i, btn);
       wOpsi.appendChild(btn);
     });
+  } else if (s.t === 'garis') {
+    badge.innerText = 'Tarik Garis (Hubungkan)';
+    wGaris.classList.remove('hidden');
+    buatSoalGaris(s, wGaris);
   } else {
-    badge.innerText = 'Soal Esai (Uraian)'; wOpsi.classList.add('hidden'); wEsai.classList.remove('hidden');
+    badge.innerText = 'Soal Esai (Uraian)'; wEsai.classList.remove('hidden');
     const inp = document.getElementById('input-jawaban-esai');
     inp.value = ''; inp.disabled = false; inp.style.borderColor = '#118ab2'; inp.style.background = 'white';
     document.getElementById('tombol-cek-esai').classList.remove('hidden');
   }
   window.scrollTo(0, 0);
 }
+
+let pilihKiri = null, jumlahCocok = 0;
+function buatSoalGaris(s, wadah) {
+  pilihKiri = null; jumlahCocok = 0;
+  const kananAcak = [...s.pasang].map((item, idx) => ({ ...item, idAsli: idx })).sort(() => Math.random() - 0.5);
+  wadah.innerHTML = `<div class="match-wrap" id="area-match"><svg class="match-svg" id="svg-garis"></svg><div class="match-col" id="kol-kiri"></div><div class="match-col" id="kol-kanan"></div></div>`;
+  const colKiri = document.getElementById('kol-kiri'), colKanan = document.getElementById('kol-kanan');
+
+  s.pasang.forEach((item, idx) => {
+    const div = document.createElement('div');
+    div.className = 'match-box'; div.id = 'kiri-' + idx;
+    div.innerHTML = `<span>${item.kiri}</span><span class="titik"></span>`;
+    div.onclick = () => {
+      if (div.classList.contains('cocok')) return;
+      document.querySelectorAll('#kol-kiri .match-box').forEach(el => el.classList.remove('pilih'));
+      div.classList.add('pilih');
+      pilihKiri = { idx, el: div, warna: item.warna };
+    };
+    colKiri.appendChild(div);
+  });
+
+  kananAcak.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'match-box kanan'; div.id = 'kanan-' + item.idAsli;
+    div.innerHTML = `<span>${item.kanan}</span><span class="titik"></span>`;
+    div.onclick = () => {
+      if (!pilihKiri || div.classList.contains('cocok')) return;
+      const st = document.getElementById('status-jawaban');
+      if (pilihKiri.idx === item.idAsli) {
+        pilihKiri.el.classList.remove('pilih');
+        pilihKiri.el.classList.add('cocok');
+        div.classList.add('cocok');
+        gambarGarisSVG(pilihKiri.el, div, pilihKiri.warna);
+        bunyiNada(new Array(523, 784), 0.2);
+        pilihKiri = null; jumlahCocok++;
+        if (jumlahCocok === s.pasang.length) {
+          st.innerHTML = '<div style="font-size:42px; margin-top:8px;">🥳</div><div class="benar-text">Yeah!!! Semua Garis Benar!</div>';
+          skorPG++; bunyiNada(new Array(523, 659, 784, 1046), 0.25); bicara('Yeah! Hebat!');
+          setTimeout(() => { soalBerikutnya(); }, 1500);
+        }
+      } else {
+        bunyiNada(new Array(300, 220), 0.25, 'sawtooth');
+        bicara('Yahhh, coba pasangan lain!');
+        st.innerHTML = '<div class="salah-text">😢 Belum pas, coba ketuk gambar yang jumlahnya sama!</div>';
+        setTimeout(() => { if (jumlahCocok < s.pasang.length) st.innerHTML = ''; }, 1200);
+      }
+    };
+    colKanan.appendChild(div);
+  });
+}
+
+function gambarGarisSVG(elKiri, elKanan, warna) {
+  const area = document.getElementById('area-match').getBoundingClientRect();
+  const r1 = elKiri.querySelector('.titik').getBoundingClientRect();
+  const r2 = elKanan.querySelector('.titik').getBoundingClientRect();
+  const svg = document.getElementById('svg-garis');
+  const line = document.createElementNS('http://w3.org', 'line');
+  line.setAttribute('x1', r1.left - area.left + 7);
+  line.setAttribute('y1', r1.top - area.top + 7);
+  line.setAttribute('x2', r2.left - area.left + 7);
+  line.setAttribute('y2', r2.top - area.top + 7);
+  line.setAttribute('stroke', warna);
+  line.setAttribute('stroke-width', '5');
+  line.setAttribute('stroke-linecap', 'round');
+  svg.appendChild(line);
+}
+
 
 function cekPG(pilihan, btnPilih) {
   const s = daftarSoal[indeks];
