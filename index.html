@@ -48,6 +48,10 @@
 </div>
 
 <div class="card hidden" id="area-kuis">
+ <div class="card hidden" id="area-kuis">
+  <button onclick="batalKuis()" style="background:#eee; border:none; padding:6px 12px; border-radius:10px; font-weight:bold; color:#555; float:left; cursor:pointer;">⬅ Menu</button>
+  <div id="info-soal" style="color: #888; font-weight: bold; font-size: 14px; padding-top:5px;"></div>
+  
   <div id="info-soal" style="color: #888; font-weight: bold; font-size: 14px;"></div>
   <div id="badge-tipe" class="badge-tipe"></div>
   <div class="question" id="teks-soal"></div>
@@ -66,6 +70,11 @@
   <p id="teks-skor" style="font-size: 20px; font-weight: bold; color: #118ab2;"></p>
   <button class="btn btn-sd" onclick="kembaliKeMapel()">Pilih Pelajaran Lain</button>
   <button class="btn btn-back" onclick="kembaliKeAnak()">Ganti Profil Anak</button>
+ function batalKuis() {
+  document.getElementById('area-kuis').classList.add('hidden');
+  document.getElementById('menu-mapel').classList.remove('hidden');
+}
+ 
 </div>
 
 <script>
