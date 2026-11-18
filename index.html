@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Olimpiade Anak - OMNAS 16</title>
+<title>Olimpiade Anak - Zio & Eca</title>
 <style>
   * { box-sizing: border-box; }
   body { font-family: 'Segoe UI', sans-serif; background: #e0f7fa; text-align: center; padding: 15px; margin: 0; color: #333; }
@@ -15,6 +15,7 @@
   .btn-tk { background: #ffd166; color: #333; }
   .btn-sd { background: #06d6a0; color: white; }
   .btn-mapel { background: #118ab2; color: white; }
+  .btn-paket { background: #4ea8de; color: white; }
   .btn-opt { background: #f8f9fa; color: #073b4c; border: 2px solid #118ab2; text-align: left; padding: 12px 16px; font-size: 16px; }
   .btn-cek { background: #06d6a0; color: white; margin-top: 12px; }
   .btn-next { background: #ff9f1c; color: white; margin-top: 15px; }
@@ -31,7 +32,6 @@
 </head>
 <body>
 
-<!-- HALAMAN POP-UP PEMBUKA -->
 <div class="card" id="popup-awal" style="padding: 35px 20px;">
   <div style="font-size: 55px; margin-bottom: 10px;">🎒📚</div>
   <h1>Sudah siap belajar?</h1>
@@ -39,7 +39,6 @@
   <button class="btn btn-sd" style="font-size: 20px; padding: 16px;" onclick="mulaiSapaan()">Siap! 🚀</button>
 </div>
 
-<!-- HALAMAN PILIH PROFIL ZIO / ECA -->
 <div class="card hidden" id="menu-anak">
   <h1>🏆 Latihan Olimpiade 🏆</h1>
   <p>Siapakah yang akan belajar saat ini?</p>
@@ -50,15 +49,22 @@
 <div class="card hidden" id="menu-mapel">
   <h2 id="judul-anak"></h2>
   <p>Pilih mata pelajaran:</p>
-  <button class="btn btn-mapel" onclick="mulaiKuis('MTK')">🔢 Matematika & Logika</button>
-  <button class="btn btn-mapel" onclick="mulaiKuis('IPA')">🌿 Sains / IPA (OMNAS 16)</button>
-  <button class="btn btn-mapel" onclick="mulaiKuis('ING')">🔤 Bahasa Inggris</button>
+  <button class="btn btn-mapel" onclick="pilihMapel('MTK')">🔢 Matematika & Logika</button>
+  <button class="btn btn-mapel" onclick="pilihMapel('IPA')">🌿 Sains / IPA</button>
+  <button class="btn btn-mapel" onclick="pilihMapel('ING')">🔤 Bahasa Inggris</button>
   <button class="btn btn-back" onclick="kembaliKeAnak()">⬅ Ganti Profil</button>
+</div>
+
+<div class="card hidden" id="menu-paket">
+  <h2 id="judul-mapel"></h2>
+  <p>Pilih paket soal latihan:</p>
+  <div id="wadah-paket"></div>
+  <button class="btn btn-back" onclick="kembaliKeMapel()">⬅ Pilih Pelajaran Lain</button>
 </div>
 
 <div class="card hidden" id="area-kuis">
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-    <button onclick="keMenuMapel()" style="background:#eee; border:none; padding:6px 14px; border-radius:10px; font-weight:bold; color:#555; cursor:pointer;">Menu</button>
+    <button onclick="keMenuPaket()" style="background:#eee; border:none; padding:6px 14px; border-radius:10px; font-weight:bold; color:#555; cursor:pointer;">Menu</button>
     <div id="info-soal" style="color: #888; font-weight: bold; font-size: 14px;"></div>
     <button onclick="keSoalSebelumnya()" style="background:#eee; border:none; padding:6px 14px; border-radius:10px; font-weight:bold; color:#555; cursor:pointer;">Back</button>
   </div>
@@ -77,57 +83,53 @@
 <div class="card hidden" id="area-hasil">
   <h1>🎉 Horeee Selesai! 🎉</h1>
   <p id="teks-skor" style="font-size: 20px; font-weight: bold; color: #118ab2;"></p>
-  <button class="btn btn-sd" onclick="kembaliKeMapel()">Pilih Pelajaran Lain</button>
+  <button class="btn btn-sd" onclick="keMenuPaket()">Pilih Paket Soal Lain</button>
   <button class="btn btn-back" onclick="kembaliKeAnak()">Ganti Profil Anak</button>
 </div>
-
 <script>
-const DB = {
-  TK: {
-    MTK: [{t:'pg', q:'🍎 + 🍎 + 🍎 = Berapa jumlah apel?', o:['2 Apel','3 Apel','4 Apel'], j:1, b:'1 + 1 + 1 = 3 apel.'}],
-    IPA: [{t:'pg', q:'Hewan mana yang punya belalai panjang?', o:['Kucing','Gajah','Kelinci'], j:1, b:'Gajah memiliki belalai panjang.'}],
-    ING: [{t:'pg', q:'Apa bahasa Inggrisnya buah Apel?', o:['Banana','Apple','Orange'], j:1, b:'Apple artinya apel.'}]
-  },
-  SD: {
-    MTK: [{t:'pg', q:'Andi punya 14 kelereng. Diberikan 5 ke Budi, lalu beli 3. Berapa kelereng Andi sekarang?', o:['11','12','13'], j:1, b:'14 - 5 + 3 = 12.'}],
-    ING: [{t:'pg', q:'Today is Monday. Tomorrow is ...', o:['Sunday','Tuesday','Friday'], j:1, b:'Setelah Senin (Monday) adalah Selasa (Tuesday).'}],
-    IPA: [
-      {t:'pg', q:'1. Ketika kita mencium aroma bunga, bagian tubuh yang digunakan adalah ....', o:['Mata','Hidung','Telinga','Lidah'], j:1, b:'Hidung adalah indra penciuman.'},
-      {t:'pg', q:'2. Rina melihat warna pelangi setelah hujan. Indra yang digunakan Rina adalah ....', o:['Peraba','Pengecap','Penglihatan','Pendengaran'], j:2, b:'Mata adalah indra penglihatan.'},
-      {t:'pg', q:'3. Bagian tubuh yang membantu kita merasakan rasa makanan adalah ....', o:['Kulit','Lidah','Hidung','Gigi'], j:1, b:'Lidah adalah indra pengecap.'},
-      {t:'pg', q:'4. Berikut ini yang merupakan ciri-ciri makhluk hidup adalah ....', o:['Tidak membutuhkan makanan','Tidak dapat bergerak','Tumbuh dan berkembang','Tidak membutuhkan air'], j:2, b:'Makhluk hidup tumbuh, berkembang, bernapas, dan butuh makan/minum.'},
-      {t:'pg', q:'5. Tanaman yang diletakkan di tempat gelap dalam waktu lama akan mengalami kesulitan tumbuh karena kekurangan ....', o:['Cahaya','Batu','Pasir','Plastik'], j:0, b:'Tanaman butuh cahaya matahari untuk fotosintesis.'},
-      {t:'pg', q:'6. Seekor kucing melahirkan anak kucing. Hal tersebut menunjukkan bahwa makhluk hidup dapat ....', o:['Menguap','Berkembang biak','Membeku','Mencair'], j:1, b:'Berkembang biak artinya menghasilkan keturunan.'},
-      {t:'pg', q:'7. Ketika lampu dinyalakan, ruangan menjadi terang. Perubahan energi yang terjadi adalah ....', o:['Energi listrik menjadi energi cahaya','Energi panas menjadi energi gerak','Energi bunyi menjadi energi listrik','Energi cahaya menjadi energi makanan'], j:0, b:'Lampu mengubah energi listrik menjadi cahaya.'},
-      {t:'pg', q:'8. Alat berikut yang mengubah energi listrik menjadi energi gerak adalah ....', o:['Setrika','Kipas angin','Lampu','Lilin'], j:1, b:'Baling-baling kipas angin bergerak menggunakan listrik.'},
-      {t:'pg', q:'9. Saat kita berlari, tubuh memperoleh energi dari ....', o:['Makanan','Batu','Plastik','Kertas'], j:0, b:'Makanan diolah tubuh menjadi energi.'},
-      {t:'pg', q:'10. Ibu menjemur pakaian basah di bawah sinar matahari. Pakaian menjadi kering karena air mengalami ....', o:['Pembekuan','Penguapan','Pencairan','Pembusukan'], j:1, b:'Panas matahari membuat air menguap menjadi uap air.'},
-      {t:'pg', q:'11. Air yang dimasukkan ke dalam freezer dalam waktu cukup lama akan berubah menjadi ....', o:['Uap','Es','Udara','Minyak'], j:1, b:'Air membeku menjadi es di suhu dingin.'},
-      {t:'pg', q:'12. Sumber cahaya alami terbesar bagi bumi adalah ....', o:['Lampu','Lilin','Matahari','Senter'], j:2, b:'Matahari adalah sumber cahaya alami terbesar.'},
-      {t:'pg', q:'13. Benda yang dapat menghasilkan bayangan ketika terkena cahaya adalah ....', o:['Benda bening','Benda yang menghalangi cahaya','Udara','Cahaya itu sendiri'], j:1, b:'Bayangan muncul saat cahaya terhalang benda tidak tembus cahaya.'},
-      {t:'pg', q:'14. Ketika tangan didekatkan ke api unggun, tangan terasa hangat. Hal ini menunjukkan bahwa api menghasilkan ....', o:['Bunyi','Panas','Air','Angin'], j:1, b:'Api menghasilkan energi panas.'},
-      {t:'pg', q:'15. Pada siang hari, matahari tampak berada di langit. Pada malam hari, benda langit yang sering terlihat adalah ....', o:['Matahari dan pelangi','Bulan dan bintang','Awan dan matahari','Pelangi dan matahari'], j:1, b:'Bulan dan bintang terlihat pada malam hari.'},
-      {t:'pg', q:'16. Bulan terlihat bersinar pada malam hari karena ....', o:['Bulan menghasilkan cahaya sendiri','Bulan memantulkan cahaya matahari','Bulan terbuat dari api','Bulan memiliki lampu'], j:1, b:'Bulan memantulkan cahaya dari matahari.'},
-      {t:'pg', q:'17. Benda langit yang menjadi pusat tata surya adalah ....', o:['Bumi','Bulan','Matahari','Bintang'], j:2, b:'Matahari adalah pusat tata surya.'},
-      {t:'pg', q:'18. Peristiwa siang dan malam terjadi karena ....', o:['Bumi berputar pada porosnya','Bulan mengelilingi matahari','Matahari mengelilingi bumi','Bintang berpindah tempat'], j:0, b:'Rotasi bumi menyebabkan siang dan malam.'},
-      {t:'pg', q:'19. Perhatikan benda-benda berikut:\n- Batu\n- Kucing\n- Pohon mangga\n- Sepeda\n\nBenda yang termasuk makhluk hidup adalah ....', o:['Batu dan sepeda','Kucing dan pohon mangga','Batu dan pohon mangga','Sepeda dan kucing'], j:1, b:'Kucing (hewan) dan pohon mangga (tumbuhan) adalah makhluk hidup.'},
-      {t:'pg', q:'20. Andi meletakkan dua tanaman yang sama. Tanaman A diberi air secara teratur, sedangkan tanaman B tidak diberi air. Setelah beberapa hari, tanaman B layu.\n\nKesimpulan yang tepat adalah ....', o:['Tanaman tidak membutuhkan air','Air membantu tanaman tetap hidup','Tanaman hanya membutuhkan batu','Air membuat tanaman mati'], j:1, b:'Air dibutuhkan tanaman agar tetap hidup.'},
-      {t:'pg', q:'21. Perhatikan urutan berikut: Es batu → Air → Uap air.\nPerubahan wujud yang terjadi dari air menjadi uap air disebut ....', o:['Membeku','Mencair','Menguap','Mengembun'], j:2, b:'Cair menjadi gas disebut menguap.'},
-      {t:'pg', q:'22. Benda berikut yang paling baik digunakan untuk melihat benda di baliknya adalah ....', o:['Kayu','Kardus','Kaca bening','Batu'], j:2, b:'Kaca bening tembus cahaya.'},
-      {t:'pg', q:'23. Budi memukul dua benda. Benda pertama menghasilkan suara nyaring, sedangkan benda kedua menghasilkan suara pelan.\n\nIndra yang digunakan untuk membedakan kedua suara tersebut adalah ....', o:['Penglihatan','Pendengaran','Penciuman','Peraba'], j:1, b:'Telinga sebagai indra pendengaran membedakan bunyi.'},
-      {t:'pg', q:'24. (ENGLISH) Which part of the body is used to hear sounds?', o:['Eyes','Nose','Ears','Hands'], j:2, b:'Ears artinya telinga untuk mendengar.'},
-      {t:'pg', q:'25. (ENGLISH) Which one is a living thing?', o:['Rock','Chair','Tree','Pencil'], j:2, b:'Tree (pohon) adalah makhluk hidup.'},
-       {t:'esai', q:'ESAI 1. Sebutkan lima pancaindra manusia beserta kegunaan masing-masing!', b:'1. Mata (penglihatan): untuk melihat.\n2. Telinga (pendengaran): untuk mendengar.\n3. Hidung (penciuman): untuk mencium bau.\n4. Lidah (pengecap): untuk merasakan rasa makanan.\n5. Kulit (peraba): untuk merasakan halus, kasar, panas, dingin.'},
-      {t:'esai', q:'ESAI 2. Tuliskan empat ciri-ciri makhluk hidup!', b:'1. Bernapas.\n2. Membutuhkan makanan dan air.\n3. Bergerak.\n4. Tumbuh dan berkembang biak.'},
-      {t:'esai', q:'ESAI 3. Mengapa tanaman membutuhkan air dan cahaya matahari untuk tumbuh?', b:'Untuk melakukan fotosintesis (membuat makanan sendiri) agar tumbuh subur.'},
-      {t:'esai', q:'ESAI 4. Jelaskan mengapa kita dapat melihat bayangan tubuh ketika berdiri di bawah sinar matahari!', b:'Karena cahaya merambat lurus dan terhalang oleh tubuh kita yang tidak tembus cahaya.'},
-      {t:'esai', q:'ESAI 5. Perhatikan percobaan berikut:\nAndi memasukkan dua buah es batu ke dalam wadah berbeda. Wadah A diletakkan di bawah sinar matahari, sedangkan wadah B di ruangan sejuk.\n- Es batu manakah yang lebih cepat mencair?\n- Mengapa hal tersebut dapat terjadi?\n- Apa kesimpulan dari percobaan tersebut?', b:'- Wadah A lebih cepat mencair.\n- Karena Wadah A terkena panas langsung dari sinar matahari.\n- Kesimpulan: Energi panas mempercepat proses mencairnya es batu.'}
-    ]
-  }
-};
+const SHEET_CSV_URL = "https://google.com";
 
-let anakAktif = '', daftarSoal = [], indeks = 0, skorPG = 0, totalPG = 0;
-let sudahSapaAwal = false;
+let semuaData = [], anakAktif = '', mapelAktif = '', daftarSoal = [], indeks = 0, skorPG = 0, totalPG = 0;
+
+function parseCSV(str) {
+  const arr = []; let quote = false;
+  for (let row = 0, col = 0, c = 0; c < str.length; c++) {
+    let cc = str[c], nc = str[c+1];
+    arr[row] = arr[row] || []; arr[row][col] = arr[row][col] || '';
+    if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }
+    if (cc == '"') { quote = !quote; continue; }
+    if (cc == ',' && !quote) { ++col; continue; }
+    if (cc == '\r' && nc == '\n' && !quote) { ++row; col = 0; ++c; continue; }
+    if (cc == '\n' && !quote) { ++row; col = 0; continue; }
+    if (cc == '\r' && !quote) { ++row; col = 0; continue; }
+    arr[row][col] += cc;
+  }
+  return arr;
+}
+
+async function muatDariSheets() {
+  try {
+    const res = await fetch(SHEET_CSV_URL + "&t=" + new Date().getTime());
+    const text = await res.text();
+    const rows = parseCSV(text);
+    semuaData = [];
+    for (let i = 1; i < rows.length; i++) {
+      const r = rows[i];
+      if (!r || !r || !r) continue;
+      semuaData.push({
+        anak: r.trim().toUpperCase(),
+        mapel: r.trim().toUpperCase(),
+        paket: (r || 'Paket 1').trim(),
+        tipe: (r || 'pg').trim().toLowerCase(),
+        q: r.trim(),
+        o: [r||'', r||'', r||'', r||''].filter(x => x.trim() !== ''),
+        j: parseInt(r) || 0,
+        b: (r || '').trim()
+      });
+    }
+  } catch (e) { console.error(e); }
+}
+muatDariSheets();
 
 function bicara(teks) {
   if ('speechSynthesis' in window) {
@@ -142,8 +144,7 @@ const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 function bunyiNada(freqs, durasi, tipe = 'sine') {
   if (audioCtx.state === 'suspended') audioCtx.resume();
   freqs.forEach((f, idx) => {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
+    const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
     osc.type = tipe;
     osc.frequency.setValueAtTime(f, audioCtx.currentTime + idx * 0.12);
     gain.gain.setValueAtTime(0.2, audioCtx.currentTime + idx * 0.12);
@@ -157,38 +158,31 @@ function bunyiNada(freqs, durasi, tipe = 'sine') {
 function bunyiTepukTangan() {
   if (audioCtx.state === 'suspended') audioCtx.resume();
   for (let i = 0; i < 20; i++) {
-    const waktu = audioCtx.currentTime + i * 0.1;
-    const bufferSize = audioCtx.sampleRate * 0.08;
-    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-    const data = buffer.getChannelData(0);
+    const waktu = audioCtx.currentTime + i * 0.1, bufferSize = audioCtx.sampleRate * 0.08;
+    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate), data = buffer.getChannelData(0);
     for (let j = 0; j < bufferSize; j++) data[j] = Math.random() * 2 - 1;
-    const noise = audioCtx.createBufferSource();
-    noise.buffer = buffer;
-    const filter = audioCtx.createBiquadFilter();
-    filter.type = 'bandpass'; filter.frequency.value = 1100 + Math.random() * 400;
-    const gain = audioCtx.createGain();
-    gain.gain.setValueAtTime(0.25, waktu);
+    const noise = audioCtx.createBufferSource(); noise.buffer = buffer;
+    const filter = audioCtx.createBiquadFilter(); filter.type = 'bandpass'; filter.frequency.value = 1100 + Math.random() * 400;
+    const gain = audioCtx.createGain(); gain.gain.setValueAtTime(0.25, waktu);
     gain.gain.exponentialRampToValueAtTime(0.01, waktu + 0.07);
     noise.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
     noise.start(waktu);
   }
 }
-
-function mulaiSapaan() {
+ function mulaiSapaan() {
   if (audioCtx.state === 'suspended') audioCtx.resume();
   document.getElementById('popup-awal').classList.add('hidden');
   document.getElementById('menu-anak').classList.remove('hidden');
   bicara("Halo, selamat datang! Selamat belajar. Siapakah yang akan belajar saat ini? Zio atau Eca?");
 }
 
-function pilihAnak(profil, namaPanggilan) {
+function pilihAnak(profil, nama) {
   anakAktif = profil;
-  bicara(`Oke, selamat datang ${namaPanggilan}! Yuk kita mulai belajar!`);
+  bicara(`Oke, selamat datang ${nama}! Yuk kita mulai belajar!`);
   document.getElementById('menu-anak').classList.add('hidden');
   document.getElementById('menu-mapel').classList.remove('hidden');
   document.getElementById('judul-anak').innerText = profil === 'TK' ? '🧸 Menu Belajar ZIO (TK)' : '🚀 Menu Belajar ECA (SD 1-2)';
 }
-
 
 function kembaliKeAnak() {
   document.getElementById('menu-mapel').classList.add('hidden');
@@ -196,24 +190,56 @@ function kembaliKeAnak() {
   document.getElementById('menu-anak').classList.remove('hidden');
   bicara("Siapakah yang akan belajar saat ini? Zio atau Eca?");
 }
+
 function kembaliKeMapel() {
-  document.getElementById('area-hasil').classList.add('hidden');
+  document.getElementById('menu-paket').classList.add('hidden');
   document.getElementById('menu-mapel').classList.remove('hidden');
 }
-function keMenuMapel() {
+
+function keMenuPaket() {
   document.getElementById('area-kuis').classList.add('hidden');
-  document.getElementById('menu-mapel').classList.remove('hidden');
+  document.getElementById('area-hasil').classList.add('hidden');
+  document.getElementById('menu-paket').classList.remove('hidden');
 }
+
 function keSoalSebelumnya() {
   if (indeks > 0) { indeks--; tampilkanSoal(); }
 }
-function mulaiKuis(m) {
-  daftarSoal = DB[anakAktif][m];
-  indeks = 0; skorPG = 0; totalPG = daftarSoal.filter(s => s.t === 'pg').length;
+
+async function pilihMapel(mapel) {
+  mapelAktif = mapel;
   document.getElementById('menu-mapel').classList.add('hidden');
+  document.getElementById('menu-paket').classList.remove('hidden');
+  const namaMapel = mapel === 'MTK' ? '🔢 Matematika & Logika' : (mapel === 'IPA' ? '🌿 Sains / IPA' : '🔤 Bahasa Inggris');
+  document.getElementById('judul-mapel').innerText = namaMapel;
+  const wadah = document.getElementById('wadah-paket');
+  wadah.innerHTML = '<p style="color:#888;">Memuat daftar paket soal...</p>';
+  if (semuaData.length === 0) await muatDariSheets();
+  const soalMapel = semuaData.filter(s => s.anak === anakAktif && s.mapel === mapel);
+  const daftarPaket = [...new Set(soalMapel.map(s => s.paket))];
+  wadah.innerHTML = '';
+  if (daftarPaket.length === 0) {
+    wadah.innerHTML = '<p style="color:#ef476f;">Belum ada soal untuk pelajaran ini di Google Sheets.</p>';
+    return;
+  }
+  daftarPaket.forEach(namaPaket => {
+    const jumlah = soalMapel.filter(s => s.paket === namaPaket).length;
+    const btn = document.createElement('button');
+    btn.className = 'btn btn-paket';
+    btn.innerText = `📘 ${namaPaket} (${jumlah} Soal)`;
+    btn.onclick = () => mulaiKuis(namaPaket);
+    wadah.appendChild(btn);
+  });
+}
+
+function mulaiKuis(namaPaket) {
+  daftarSoal = semuaData.filter(s => s.anak === anakAktif && s.mapel === mapelAktif && s.paket === namaPaket);
+  indeks = 0; skorPG = 0; totalPG = daftarSoal.filter(s => s.tipe === 'pg').length;
+  document.getElementById('menu-paket').classList.add('hidden');
   document.getElementById('area-kuis').classList.remove('hidden');
   tampilkanSoal();
 }
+
 function tampilkanSoal() {
   const s = daftarSoal[indeks];
   document.getElementById('info-soal').innerText = `Soal ${indeks + 1} / ${daftarSoal.length}`;
@@ -222,7 +248,7 @@ function tampilkanSoal() {
   document.getElementById('wadah-pembahasan').classList.add('hidden');
   document.getElementById('tombol-lanjut').classList.add('hidden');
   const wOpsi = document.getElementById('wadah-opsi'), wEsai = document.getElementById('wadah-esai'), badge = document.getElementById('badge-tipe');
-  if (s.t === 'pg') {
+  if (s.tipe === 'pg') {
     badge.innerText = 'Pilihan Ganda'; wOpsi.classList.remove('hidden'); wEsai.classList.add('hidden'); wOpsi.innerHTML = '';
     const huruf = ['A. ', 'B. ', 'C. ', 'D. '];
     s.o.forEach((teks, i) => {
@@ -239,6 +265,7 @@ function tampilkanSoal() {
   }
   window.scrollTo(0, 0);
 }
+
 function cekPG(pilihan, btnPilih) {
   const s = daftarSoal[indeks];
   document.querySelectorAll('.btn-opt').forEach(b => b.disabled = true);
@@ -246,28 +273,30 @@ function cekPG(pilihan, btnPilih) {
   if (pilihan === s.j) {
     btnPilih.style.background = '#d8f3dc'; btnPilih.style.borderColor = '#06d6a0';
     st.innerHTML = '<div style="font-size:42px; margin-top:8px;">🥳</div><div class="benar-text">Yeah!!! Jawabanmu Betul!</div>';
-    skorPG++; bunyiNada([523, 659, 784, 1046], 0.25); bicara('Yeah! Betul!');
+    skorPG++; bunyiNada(new Array(523, 659, 784, 1046), 0.25); bicara('Yeah! Betul!');
     setTimeout(() => { soalBerikutnya(); }, 1300);
   } else {
     btnPilih.style.background = '#ffe5ec'; btnPilih.style.borderColor = '#ef476f';
     const semua = document.querySelectorAll('.btn-opt');
-    semua[s.j].style.background = '#d8f3dc'; semua[s.j].style.borderColor = '#06d6a0';
+    if (semua[s.j]) { semua[s.j].style.background = '#d8f3dc'; semua[s.j].style.borderColor = '#06d6a0'; }
     st.innerHTML = '<div style="font-size:42px; margin-top:8px;">😢</div><div class="salah-text">Yahhh salah nih... Yuk baca pembahasannya!</div>';
-    bunyiNada([350, 280, 210], 0.3, 'sawtooth'); bicara('Yahhh, salah nih!');
+    bunyiNada(new Array(350, 280, 210), 0.3, 'sawtooth'); bicara('Yahhh, salah nih!');
     box.innerHTML = `<strong>💡 Pembahasan:</strong>\n${s.b}`; box.classList.remove('hidden');
     document.getElementById('tombol-lanjut').classList.remove('hidden');
   }
 }
+
 function cekJawabanEsai() {
   const s = daftarSoal[indeks], inp = document.getElementById('input-jawaban-esai');
   if (inp.value.trim() === '') { alert('Ketik dulu jawabannya ya!'); return; }
   inp.disabled = true; document.getElementById('tombol-cek-esai').classList.add('hidden');
   document.getElementById('status-jawaban').innerHTML = '<div class="info-esai-text">✅ Jawaban tersimpan! Yuk cocokan dengan kunci di bawah:</div>';
-  bunyiNada([523, 659], 0.2);
+  bunyiNada(new Array(523, 659), 0.2);
   const box = document.getElementById('wadah-pembahasan');
   box.innerHTML = `<strong>🔑 Kunci Jawaban / Pembahasan:</strong>\n${s.b}`; box.classList.remove('hidden');
   document.getElementById('tombol-lanjut').classList.remove('hidden');
 }
+
 function soalBerikutnya() {
   indeks++;
   if (indeks < daftarSoal.length) tampilkanSoal();
