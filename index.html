@@ -1744,7 +1744,7 @@ function tampilkanSoal() {
   const s = daftarSoal[indeks];
   const badge = document.getElementById('badge-tipe');
   document.getElementById('info-soal').innerText = "Soal " + (indeks + 1) + " / " + daftarSoal.length;
-  document.getElementById('teks-soal').innerText = s.q;
+  document.getElementById('teks-soal').innerHTML = s.q.replace(/\n/g, '<br>');
    var wadahGbr = document.getElementById('wadah-gambar-soal');
   if (!wadahGbr) {
     wadahGbr = document.createElement('div');
