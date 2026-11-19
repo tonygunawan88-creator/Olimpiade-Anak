@@ -938,7 +938,10 @@ function pilihMapel(mapel) {
  }
   let streakBenar = 0, waktuMulai = 0, intervalTimer = null;
 
+let streakBenar = 0, waktuMulai = 0, intervalTimer = null, paketAktif = '';
+
 function mulaiKuis(namaPaket) {
+  paketAktif = namaPaket;
   daftarSoal = DB[anakAktif][mapelAktif][namaPaket];
   indeks = 0; skorPG = 0; daftarSalah = []; streakBenar = 0;
   waktuMulai = Date.now();
@@ -1148,8 +1151,23 @@ function soalBerikutnya() {
     var detik = totalDetik % 60;
     var teksWaktu = (menit > 0 ? menit + " menit " : "") + detik + " detik";
     var statusBatas = totalDetik <= 3600 ? "✅ Selesai tepat waktu (di bawah 60 menit)" : "⚠️ Melewati batas 60 menit";
-
     var nilai = totalPG > 0 ? Math.round((skorPG / totalPG) * 100) : 100;
+
+    var namaAnakTampil = anakAktif === 'TK' ? 'Zio (TK)' : 'Eca (SD)';
+    var catatanBaru = {
+      tanggal: new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' }),
+      jam: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
+      anak: namaAnakTampil,
+      mapel: mapelAktif,
+      paket: paketAktif,
+      waktu: teksWaktu,
+      nilai: nilai,
+      salah: daftarSalah.map(function(item) { return { soal: item.soal, kunci: item.kunci }; })
+    };
+    var semuaCatatan = JSON.parse(localStorage.getItem('catatanBelajarAnak') || '[]');
+    semuaCatatan.unshift(catatanBaru);
+    localStorage.setItem('catatanBelajarAnak', JSON.stringify(semuaCatatan));
+
     var htmlHasil = '<div style="background:#f0f9ff; border:2px solid #118ab2; border-radius:16px; padding:15px; margin:12px 0;">';
     htmlHasil += '<div style="font-size:15px; color:#555;">Nilai Akhir Ujian:</div>';
     htmlHasil += '<div style="font-size:48px; font-weight:bold; color:#06d6a0; line-height:1.2;">' + nilai + '</div>';
@@ -1178,6 +1196,60 @@ function soalBerikutnya() {
     bunyiTepukTangan(); bicara('Horeee selesai! Nilaimu ' + nilai + '!');
   }
 }
+
+function bukaCatatanBelajar() {
+  var semua = JSON.parse(localStorage.getItem('catatanBelajarAnak') || '[]');
+  var modal = document.getElementById('modal-catatan-belajar');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'modal-catatan-belajar';
+    modal.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; overflow-y:auto; padding:16px; box-sizing:border-box;';
+    document.body.appendChild(modal);
+  }
+  var isi = '<div style="background:#fff; max-width:500px; margin:20px auto; border-radius:20px; padding:20px; text-align:left; font-family:sans-serif;">';
+  isi += '<div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #f1f5f9; padding-bottom:10px;">';
+  isi += '<h3 style="margin:0; color:#118ab2;">📋 Catatan Hasil Belajar</h3>';
+  isi += '<button onclick="document.getElementById(\'modal-catatan-belajar\').style.display=\'none\'" style="background:#ef476f; color:#fff; border:none; border-radius:10px; padding:6px 12px; font-weight:bold;">Tutup ✖</button></div>';
+
+  if (semua.length === 0) {
+    isi += '<p style="text-align:center; color:#64748b; padding:20px 0;">Belum ada catatan ujian yang tersimpan.</p>';
+  } else {
+    semua.forEach(function(c) {
+      isi += '<div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:12px; padding:12px; margin-top:12px; font-size:14px;">';
+      isi += '<div style="font-size:12px; color:#64748b;">📅 ' + c.tanggal + ' • Jam ' + c.jam + '</div>';
+      isi += '<div style="font-weight:bold; color:#0f172a; margin-top:4px;">👤 ' + c.anak + ' | ' + c.mapel + ' — ' + c.paket + '</div>';
+      isi += '<div style="margin-top:4px; color:#0284c7; font-weight:bold;">⭐ Nilai: ' + c.nilai + ' &nbsp;|&nbsp; ⏱️ Waktu: ' + c.waktu + '</div>';
+      if (c.salah && c.salah.length > 0) {
+        isi += '<div style="margin-top:6px; color:#dc2626; font-size:13px;"><b>❌ Soal yang salah:</b><ul style="margin:4px 0 0 18px; padding:0;">';
+        c.salah.forEach(function(s) {
+          isi += '<li style="margin-bottom:4px;">' + s.soal + '<br><span style="color:#059669;">✅ Kunci: ' + s.kunci + '</span></li>';
+        });
+        isi += '</ul></div>';
+      } else {
+        isi += '<div style="margin-top:6px; color:#059669; font-size:13px; font-weight:bold;">🌟 Benar semua! Tidak ada yang salah.</div>';
+      }
+      isi += '</div>';
+    });
+    isi += '<button onclick="if(confirm(\'Hapus semua catatan belajar?\')){localStorage.removeItem(\'catatanBelajarAnak\'); bukaCatatanBelajar();}" style="margin-top:16px; width:100%; background:#e2e8f0; color:#475569; border:none; border-radius:10px; padding:10px; font-size:13px;">🗑️ Hapus Semua Riwayat</button>';
+  }
+  isi += '</div>';
+  modal.innerHTML = isi;
+  modal.style.display = 'block';
+}
+
+(function tambahTombolCatatan() {
+  var menuAnak = document.getElementById('menu-anak');
+  if (menuAnak && !document.getElementById('btn-buka-catatan')) {
+    var btn = document.createElement('button');
+    btn.id = 'btn-buka-catatan';
+    btn.className = 'btn';
+    btn.style.cssText = 'background:#f59e0b; color:#fff; margin-top:15px; width:100%;';
+    btn.innerText = '📋 Lihat Catatan Belajar Anak';
+    btn.onclick = bukaCatatanBelajar;
+    menuAnak.appendChild(btn);
+  }
+})();
+
  
 
  
