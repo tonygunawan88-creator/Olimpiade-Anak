@@ -682,12 +682,12 @@ function mulaiSapaan() {
   if (audioCtx.state === 'suspended') audioCtx.resume();
   document.getElementById('popup-awal').classList.add('hidden');
   document.getElementById('menu-anak').classList.remove('hidden');
-  bicara("Halo, selamat datang! Selamat belajar. Siapakah yang akan belajar saat ini? Zio atau Eca?");
+  bicara("Halo, selamat datang! Selamat bermain. Siapakah yang akan bermain saat ini? Zio atau Eca?");
 }
 
 function pilihAnak(profil, nama) {
   anakAktif = profil;
-  bicara("Oke, selamat datang " + nama + "! Yuk kita mulai belajar!");
+  bicara("Oke, selamat datang " + nama + "! Yuk kita mulai bermain!");
   document.getElementById('menu-anak').classList.add('hidden');
   document.getElementById('menu-mapel').classList.remove('hidden');
   document.getElementById('judul-anak').innerText = profil === 'TK' ? '👦 Menu Belajar ZIO (TK)' : '👧 Menu Belajar ECA (SD)';
