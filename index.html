@@ -832,16 +832,24 @@ function buatSoalGaris(s, wadah) {
   });
 }
 function gambarGarisSVG(elKiri, elKanan, warna) {
-  const area = document.getElementById('area-match').getBoundingClientRect();
+  const areaWrap = document.getElementById('area-match');
+  const svg = document.getElementById('svg-garis');
+  const area = areaWrap.getBoundingClientRect();
+  svg.setAttribute('width', area.width);
+  svg.setAttribute('height', area.height);
+  svg.style.position = 'absolute';
+  svg.style.top = '0';
+  svg.style.left = '0';
+  svg.style.pointerEvents = 'none';
+  svg.style.zIndex = '5';
   const r1 = elKiri.querySelector('.titik').getBoundingClientRect();
   const r2 = elKanan.querySelector('.titik').getBoundingClientRect();
-  const svg = document.getElementById('svg-garis');
   const line = document.createElementNS('http://w3.org', 'line');
   line.setAttribute('x1', r1.left - area.left + 7);
   line.setAttribute('y1', r1.top - area.top + 7);
   line.setAttribute('x2', r2.left - area.left + 7);
   line.setAttribute('y2', r2.top - area.top + 7);
-  line.setAttribute('stroke', warna);
+  line.setAttribute('stroke', warna || '#ef476f');
   line.setAttribute('stroke-width', '5');
   line.setAttribute('stroke-linecap', 'round');
   svg.appendChild(line);
