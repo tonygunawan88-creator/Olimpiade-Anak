@@ -733,14 +733,41 @@ function pilihMapel(mapel) {
     wadah.appendChild(btn);
   });
  }
-  let streakBenar = 0;
+  let streakBenar = 0, waktuMulai = 0, intervalTimer = null;
 
 function mulaiKuis(namaPaket) {
   daftarSoal = DB[anakAktif][mapelAktif][namaPaket];
   indeks = 0; skorPG = 0; daftarSalah = []; streakBenar = 0;
+  waktuMulai = Date.now();
   totalPG = daftarSoal.filter(s => s.t === 'pg' || s.t === 'garis').length;
   document.getElementById('menu-paket').classList.add('hidden');
   document.getElementById('area-kuis').classList.remove('hidden');
+
+  if (intervalTimer) clearInterval(intervalTimer);
+  var elTimer = document.getElementById('box-timer-olimpiade');
+  if (!elTimer) {
+    elTimer = document.createElement('div');
+    elTimer.id = 'box-timer-olimpiade';
+    elTimer.style.cssText = 'text-align:right; font-size:14px; font-weight:bold; color:#118ab2; margin-bottom:8px;';
+    var infoSoal = document.getElementById('info-soal');
+    infoSoal.parentNode.insertBefore(elTimer, infoSoal);
+  }
+
+  if (anakAktif === 'SD') {
+    elTimer.style.display = 'block';
+    elTimer.style.color = '#118ab2';
+    elTimer.innerText = '⏱️ 00:00 / 60:00';
+    intervalTimer = setInterval(function() {
+      var dtk = Math.floor((Date.now() - waktuMulai) / 1000);
+      var m = String(Math.floor(dtk / 60)).padStart(2, '0');
+      var s = String(dtk % 60).padStart(2, '0');
+      elTimer.innerText = '⏱️ ' + m + ':' + s + ' / 60:00';
+      if (dtk >= 3000) elTimer.style.color = '#ef476f';
+    }, 1000);
+  } else {
+    elTimer.style.display = 'none';
+  }
+
   tampilkanSoal();
 }
 
@@ -909,13 +936,26 @@ function soalBerikutnya() {
   if (indeks < daftarSoal.length) {
     tampilkanSoal();
   } else {
+    if (intervalTimer) clearInterval(intervalTimer);
     document.getElementById('area-kuis').classList.add('hidden');
     document.getElementById('area-hasil').classList.remove('hidden');
+
+    var totalDetik = Math.floor((Date.now() - waktuMulai) / 1000);
+    var menit = Math.floor(totalDetik / 60);
+    var detik = totalDetik % 60;
+    var teksWaktu = (menit > 0 ? menit + " menit " : "") + detik + " detik";
+    var statusBatas = totalDetik <= 3600 ? "✅ Selesai tepat waktu (di bawah 60 menit)" : "⚠️ Melewati batas 60 menit";
+
     var nilai = totalPG > 0 ? Math.round((skorPG / totalPG) * 100) : 100;
     var htmlHasil = '<div style="background:#f0f9ff; border:2px solid #118ab2; border-radius:16px; padding:15px; margin:12px 0;">';
     htmlHasil += '<div style="font-size:15px; color:#555;">Nilai Akhir Ujian:</div>';
     htmlHasil += '<div style="font-size:48px; font-weight:bold; color:#06d6a0; line-height:1.2;">' + nilai + '</div>';
-    htmlHasil += '<div style="font-size:15px; color:#333;">Benar ' + skorPG + ' dari ' + totalPG + ' soal ⭐</div></div>';
+    htmlHasil += '<div style="font-size:15px; color:#333;">Benar ' + skorPG + ' dari ' + totalPG + ' soal ⭐</div>';
+    htmlHasil += '<div style="font-size:14px; color:#118ab2; font-weight:bold; margin-top:8px;">⏱️ Waktu pengerjaan: ' + teksWaktu + '</div>';
+    if (anakAktif === 'SD') {
+      htmlHasil += '<div style="font-size:13px; color:#555; margin-top:3px;">' + statusBatas + '</div>';
+    }
+    htmlHasil += '</div>';
 
     if (daftarSalah.length > 0) {
       daftarSalah.sort(function(a, b) { return a.no - b.no; });
@@ -934,7 +974,7 @@ function soalBerikutnya() {
     document.getElementById('teks-skor').innerHTML = htmlHasil;
     bunyiTepukTangan(); bicara('Horeee selesai! Nilaimu ' + nilai + '!');
   }
- }
+}
  
 
  
