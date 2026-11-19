@@ -132,8 +132,115 @@ var DB = {
         {t:'pg', q:'23. Siti punya 2 sepatu (1 pasang). Jika ada 3 anak memakai sepatu lengkap, berapa banyak semua sepatu mereka?\n??   ??   ??', o:['3 sepatu','4 sepatu','5 sepatu','6 sepatu'], j:3, b:'2 + 2 + 2 = 6 sepatu.'}
       ]
     },
-    IPA: { "Paket 1": [{t:'pg', q:'Hewan mana yang punya belalai panjang?', o:['Kucing','Gajah','Kelinci'], j:1, b:'Gajah memiliki belalai panjang.'}] },
-    ING: {
+        IPA: {
+      "Paket 1": [
+        {
+          t: 'pg',
+          q: "1. Pilihlah mobil polisi yang BERBEDA!<br><br>" +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><rect x='6' y='18' width='56' height='16' rx='4' fill='#2b3a4a'/><path d='M16 18 L22 8 L46 8 L52 18 Z' fill='#fff' stroke='#2b3a4a' stroke-width='2'/><rect x='24' y='10' width='8' height='6' fill='#87ceeb'/><rect x='36' y='10' width='8' height='6' fill='#87ceeb'/><rect x='30' y='4' width='8' height='4' fill='#ff3b30'/><circle cx='18' cy='34' r='6' fill='#111'/><circle cx='50' cy='34' r='6' fill='#111'/></svg> " +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><rect x='6' y='18' width='56' height='16' rx='4' fill='#2b3a4a'/><path d='M16 18 L22 8 L46 8 L52 18 Z' fill='#fff' stroke='#2b3a4a' stroke-width='2'/><rect x='24' y='10' width='8' height='6' fill='#87ceeb'/><rect x='36' y='10' width='8' height='6' fill='#87ceeb'/><rect x='30' y='4' width='8' height='4' fill='#ff3b30'/><circle cx='18' cy='34' r='6' fill='#111'/><circle cx='50' cy='34' r='6' fill='#111'/></svg> " +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><rect x='6' y='18' width='56' height='16' rx='4' fill='#2b3a4a'/><path d='M16 18 L22 8 L46 8 L52 18 Z' fill='#fff' stroke='#2b3a4a' stroke-width='2'/><rect x='24' y='10' width='8' height='6' fill='#87ceeb'/><rect x='30' y='4' width='8' height='4' fill='#ff3b30'/><circle cx='18' cy='34' r='6' fill='#111'/><circle cx='50' cy='34' r='6' fill='#111'/></svg> " +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><rect x='6' y='18' width='56' height='16' rx='4' fill='#2b3a4a'/><path d='M16 18 L22 8 L46 8 L52 18 Z' fill='#fff' stroke='#2b3a4a' stroke-width='2'/><rect x='24' y='10' width='8' height='6' fill='#87ceeb'/><rect x='36' y='10' width='8' height='6' fill='#87ceeb'/><rect x='30' y='4' width='8' height='4' fill='#ff3b30'/><circle cx='18' cy='34' r='6' fill='#111'/><circle cx='50' cy='34' r='6' fill='#111'/></svg>",
+          o: ['Gambar ke-1', 'Gambar ke-2', 'Gambar ke-3', 'Gambar ke-4'],
+          j: 2,
+          b: 'Gambar ke-3 hanya punya 1 jendela biru, sedangkan yang lain ada 2.'
+        },
+        {
+          t: 'pg',
+          q: "2. Pilihlah taksi yang BERBEDA!<br><br>" +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><rect x='6' y='18' width='56' height='16' rx='4' fill='#ffd60a'/><path d='M16 18 L22 8 L46 8 L52 18 Z' fill='#ffd60a'/><rect x='22' y='23' width='5' height='5' fill='#111'/><rect x='31' y='23' width='5' height='5' fill='#111'/><rect x='40' y='23' width='5' height='5' fill='#111'/><circle cx='18' cy='34' r='6' fill='#222'/><circle cx='50' cy='34' r='6' fill='#222'/></svg> " +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><rect x='6' y='18' width='56' height='16' rx='4' fill='#ffd60a'/><path d='M16 18 L22 8 L46 8 L52 18 Z' fill='#ffd60a'/><rect x='22' y='23' width='5' height='5' fill='#111'/><rect x='31' y='23' width='5' height='5' fill='#111'/><circle cx='18' cy='34' r='6' fill='#222'/><circle cx='50' cy='34' r='6' fill='#222'/></svg> " +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><rect x='6' y='18' width='56' height='16' rx='4' fill='#ffd60a'/><path d='M16 18 L22 8 L46 8 L52 18 Z' fill='#ffd60a'/><rect x='22' y='23' width='5' height='5' fill='#111'/><rect x='31' y='23' width='5' height='5' fill='#111'/><rect x='40' y='23' width='5' height='5' fill='#111'/><circle cx='18' cy='34' r='6' fill='#222'/><circle cx='50' cy='34' r='6' fill='#222'/></svg> " +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><rect x='6' y='18' width='56' height='16' rx='4' fill='#ffd60a'/><path d='M16 18 L22 8 L46 8 L52 18 Z' fill='#ffd60a'/><rect x='22' y='23' width='5' height='5' fill='#111'/><rect x='31' y='23' width='5' height='5' fill='#111'/><rect x='40' y='23' width='5' height='5' fill='#111'/><circle cx='18' cy='34' r='6' fill='#222'/><circle cx='50' cy='34' r='6' fill='#222'/></svg>",
+          o: ['Gambar ke-1', 'Gambar ke-2', 'Gambar ke-3', 'Gambar ke-4'],
+          j: 1,
+          b: 'Gambar ke-2 hanya punya 2 kotak hitam, sedangkan yang lain ada 3.'
+        },
+        {
+          t: 'pg',
+          q: "3. Pilihlah mobil pemadam yang BERBEDA!<br><br>" +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><rect x='8' y='10' width='36' height='22' rx='2' fill='#e63946'/><rect x='44' y='16' width='16' height='16' rx='2' fill='#e63946'/><rect x='48' y='19' width='8' height='7' fill='#a8dadc'/><rect x='12' y='6' width='28' height='3' fill='#adb5bd'/><circle cx='20' cy='33' r='5' fill='#222'/><circle cx='50' cy='33' r='5' fill='#222'/></svg> " +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><rect x='8' y='10' width='36' height='22' rx='2' fill='#e63946'/><rect x='44' y='16' width='16' height='16' rx='2' fill='#e63946'/><rect x='48' y='19' width='8' height='7' fill='#a8dadc'/><rect x='12' y='6' width='28' height='3' fill='#adb5bd'/><circle cx='20' cy='33' r='5' fill='#222'/><circle cx='50' cy='33' r='5' fill='#222'/></svg> " +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><rect x='8' y='10' width='36' height='22' rx='2' fill='#e63946'/><rect x='44' y='16' width='16' height='16' rx='2' fill='#e63946'/><rect x='48' y='19' width='8' height='7' fill='#a8dadc'/><rect x='12' y='6' width='28' height='3' fill='#adb5bd'/><circle cx='20' cy='33' r='5' fill='#222'/><circle cx='50' cy='33' r='5' fill='#222'/></svg> " +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><rect x='8' y='10' width='36' height='22' rx='2' fill='#e63946'/><rect x='44' y='16' width='16' height='16' rx='2' fill='#e63946'/><rect x='48' y='19' width='8' height='7' fill='#a8dadc'/><circle cx='20' cy='33' r='5' fill='#222'/><circle cx='50' cy='33' r='5' fill='#222'/></svg>",
+          o: ['Gambar ke-1', 'Gambar ke-2', 'Gambar ke-3', 'Gambar ke-4'],
+          j: 3,
+          b: 'Gambar ke-4 tidak memiliki tangga di atapnya.'
+        },
+        {
+          t: 'pg',
+          q: "4. Pilihlah gambar kapal yang BERBEDA!<br><br>" +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><polygon points='8,24 60,24 52,36 16,36' fill='#2b2d42'/><rect x='18' y='14' width='28' height='10' fill='#f8f9fa' stroke='#2b2d42' stroke-width='1.5'/><rect x='24' y='7' width='6' height='7' fill='#ffb703'/><circle cx='24' cy='30' r='2.5' fill='#fff'/><circle cx='42' cy='30' r='2.5' fill='#fff'/></svg> " +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><polygon points='8,24 60,24 52,36 16,36' fill='#2b2d42'/><rect x='18' y='14' width='28' height='10' fill='#f8f9fa' stroke='#2b2d42' stroke-width='1.5'/><rect x='24' y='7' width='6' height='7' fill='#ffb703'/><circle cx='24' cy='30' r='2.5' fill='#fff'/><circle cx='42' cy='30' r='2.5' fill='#fff'/></svg> " +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><polygon points='8,24 60,24 52,36 16,36' fill='#2b2d42'/><rect x='18' y='14' width='28' height='10' fill='#f8f9fa' stroke='#2b2d42' stroke-width='1.5'/><rect x='24' y='7' width='6' height='7' fill='#ffb703'/><circle cx='24' cy='30' r='2.5' fill='#fff'/><circle cx='42' cy='30' r='2.5' fill='#fff'/></svg> " +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><polygon points='8,24 60,24 52,36 16,36' fill='#2b2d42'/><rect x='18' y='14' width='28' height='10' fill='#f8f9fa' stroke='#2b2d42' stroke-width='1.5'/><rect x='24' y='7' width='6' height='7' fill='#ffb703'/><circle cx='24' cy='30' r='2.5' fill='#fff'/></svg>",
+          o: ['Gambar ke-1', 'Gambar ke-2', 'Gambar ke-3', 'Gambar ke-4'],
+          j: 3,
+          b: 'Gambar ke-4 hanya punya 1 lubang bulat di badan kapal, sedangkan yang lain ada 2.'
+        },
+        {
+          t: 'pg',
+          q: "5. Pilihlah helikopter yang BERBEDA!<br><br>" +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><line x1='22' y1='8' x2='54' y2='8' stroke='#333' stroke-width='3'/><line x1='38' y1='8' x2='38' y2='14' stroke='#333' stroke-width='2'/><ellipse cx='40' cy='22' rx='16' ry='9' fill='#ffd166'/><line x1='10' y1='22' x2='25' y2='22' stroke='#ffd166' stroke-width='4'/><line x1='30' y1='35' x2='50' y2='35' stroke='#333' stroke-width='2.5'/></svg> " +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><line x1='22' y1='8' x2='54' y2='8' stroke='#333' stroke-width='3'/><line x1='38' y1='8' x2='38' y2='14' stroke='#333' stroke-width='2'/><ellipse cx='40' cy='22' rx='16' ry='9' fill='#ffd166'/><line x1='10' y1='22' x2='25' y2='22' stroke='#ffd166' stroke-width='4'/></svg> " +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><line x1='22' y1='8' x2='54' y2='8' stroke='#333' stroke-width='3'/><line x1='38' y1='8' x2='38' y2='14' stroke='#333' stroke-width='2'/><ellipse cx='40' cy='22' rx='16' ry='9' fill='#ffd166'/><line x1='10' y1='22' x2='25' y2='22' stroke='#ffd166' stroke-width='4'/><line x1='30' y1='35' x2='50' y2='35' stroke='#333' stroke-width='2.5'/></svg> " +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><line x1='22' y1='8' x2='54' y2='8' stroke='#333' stroke-width='3'/><line x1='38' y1='8' x2='38' y2='14' stroke='#333' stroke-width='2'/><ellipse cx='40' cy='22' rx='16' ry='9' fill='#ffd166'/><line x1='10' y1='22' x2='25' y2='22' stroke='#ffd166' stroke-width='4'/><line x1='30' y1='35' x2='50' y2='35' stroke='#333' stroke-width='2.5'/></svg>",
+          o: ['Gambar ke-1', 'Gambar ke-2', 'Gambar ke-3', 'Gambar ke-4'],
+          j: 1,
+          b: 'Gambar ke-2 tidak memiliki kaki pendarat di bawahnya.'
+        },
+        {
+          t: 'pg',
+          q: "6. Pilihlah pesawat yang BERBEDA!<br><br>" +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><ellipse cx='36' cy='22' rx='22' ry='6' fill='#ffd166'/><polygon points='14,22 8,11 18,19' fill='#ef476f'/><polygon points='32,22 42,10 46,22' fill='#ef476f'/><polygon points='32,24 42,35 46,24' fill='#ef476f'/></svg> " +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><ellipse cx='36' cy='22' rx='22' ry='6' fill='#ffd166'/><polygon points='14,22 8,11 18,19' fill='#ef476f'/><polygon points='32,22 42,10 46,22' fill='#ef476f'/><polygon points='32,24 42,35 46,24' fill='#ef476f'/></svg> " +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><ellipse cx='36' cy='22' rx='22' ry='6' fill='#ffd166'/><polygon points='14,22 8,11 18,19' fill='#118ab2'/><polygon points='32,22 42,10 46,22' fill='#ef476f'/><polygon points='32,24 42,35 46,24' fill='#ef476f'/></svg> " +
+             "<svg width='64' height='40' viewBox='0 0 68 42'><ellipse cx='36' cy='22' rx='22' ry='6' fill='#ffd166'/><polygon points='14,22 8,11 18,19' fill='#ef476f'/><polygon points='32,22 42,10 46,22' fill='#ef476f'/><polygon points='32,24 42,35 46,24' fill='#ef476f'/></svg>",
+          o: ['Gambar ke-1', 'Gambar ke-2', 'Gambar ke-3', 'Gambar ke-4'],
+          j: 2,
+          b: 'Gambar ke-3 ekor pesawatnya berwarna biru, sedangkan yang lain merah.'
+        },
+        {
+          t: 'garis',
+          q: '7. (Tarik Garis) Hubungkan hewan dengan makanannya!',
+          pasang: [
+            { kiri: '🦁 Singa', kanan: '🥩 Daging' },
+            { kiri: '🐼 Panda', kanan: '🎋 Bambu' },
+            { kiri: '🐴 Kuda', kanan: '🌾 Jerami' },
+            { kiri: '🐔 Ayam', kanan: '🌽 Biji-bijian' },
+            { kiri: '🐧 Penguin', kanan: '🦐 Udang / Ikan' }
+          ],
+          b: 'Singa makan daging, panda makan bambu, kuda makan jerami, ayam makan biji-bijian, penguin makan udang/ikan.'
+        },
+        {
+          t: 'garis',
+          q: '8. (Tarik Garis) Hubungkan benda dengan anggota tubuh yang sesuai!',
+          pasang: [
+            { kiri: '👢 Sepatu bot', kanan: '🦶 Kaki' },
+            { kiri: '🪥 Sikat gigi', kanan: '👄 Gigi / Mulut' },
+            { kiri: '🧢 Topi', kanan: '👦 Kepala' },
+            { kiri: '⌚ Jam tangan', kanan: '✋ Tangan' },
+            { kiri: '👓 Kacamata', kanan: '👀 Mata' }
+          ],
+          b: 'Sepatu di kaki, sikat gigi untuk mulut, topi di kepala, jam di tangan, kacamata di mata.'
+        },
+        {
+          t: 'pg',
+          q: '9. Pilihlah hewan di bawah ini yang TERMASUK serangga!',
+          o: ['🦗 Belalang', '⭐ Bintang laut', '🐤 Anak ayam', '🐸 Katak'],
+          j: 0,
+          b: 'Belalang adalah serangga (memiliki 6 kaki dan antena).'
+        },
+        {
+          t: 'pg',
+          q: '10. Manakah hewan di bawah ini yang BUKAN termasuk serangga?',
+          o: ['🐜 Semut', '🐝 Lebah', '🕷️ Laba-laba', '🐛 Ulat'],
+          j: 2,
+          b: 'Laba-laba bukan serangga karena berkaki 8 (kelompok arakhnida).'
+        }
+      ]
+    },
+   ING: {
   "Paket 1": [
     {
       t: 'pg',
