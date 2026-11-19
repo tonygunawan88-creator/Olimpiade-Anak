@@ -1127,13 +1127,41 @@ function cekPG(pilihan, btnPilih) {
 
 function cekJawabanEsai() {
   const s = daftarSoal[indeks], inp = document.getElementById('input-jawaban-esai');
-  if (inp.value.trim() === '') { alert('Ketik dulu jawabannya ya!'); return; }
-  inp.disabled = true; document.getElementById('tombol-cek-esai').classList.add('hidden');
-  document.getElementById('status-jawaban').innerHTML = '<div class="info-esai-text">✅ Jawaban tersimpan! Yuk cocokan dengan kunci di bawah:</div>';
+  const jawabanAnak = inp.value.trim();
+  if (jawabanAnak === '') { alert('Ketik dulu jawabannya ya!'); return; }
+  
+  inp.disabled = true;
+  document.getElementById('tombol-cek-esai').classList.add('hidden');
+  document.getElementById('status-jawaban').innerHTML = '<div class="info-esai-text">✅ Jawaban tersimpan! Cocokkan dengan kunci di bawah lalu pilih hasilnya:</div>';
   bunyiNada(new Array(523, 659), 0.2);
+
   const box = document.getElementById('wadah-pembahasan');
-  box.innerHTML = '<strong>🔑 Kunci Jawaban / Pembahasan:</strong>\n' + s.b; box.classList.remove('hidden');
-  document.getElementById('tombol-lanjut').classList.remove('hidden');
+  box.innerHTML = '<strong>🔑 Kunci Jawaban / Pembahasan:</strong>\n' + s.b +
+    '<div style="display:flex; gap:10px; margin-top:14px;">' +
+    '<button onclick="nilaiEsaiMandiri(true)" style="flex:1; padding:12px; background:#06d6a0; color:#fff; border:none; border-radius:12px; font-weight:bold; font-size:15px;">✅ Betul / Sesuai</button>' +
+    '<button onclick="nilaiEsaiMandiri(false)" style="flex:1; padding:12px; background:#ef476f; color:#fff; border:none; border-radius:12px; font-weight:bold; font-size:15px;">❌ Belum Tepat</button>' +
+    '</div>';
+  box.classList.remove('hidden');
+}
+
+function nilaiEsaiMandiri(isBenar) {
+  const s = daftarSoal[indeks];
+  const jawabanAnak = document.getElementById('input-jawaban-esai').value.trim();
+  totalPG++;
+  if (isBenar) {
+    skorPG++;
+    streakBenar++;
+    bunyiNada(new Array(523, 659, 784, 1046), 0.25);
+    bicara('Hebat! Jawaban esaimu sesuai!');
+  } else {
+    streakBenar = 0;
+    if (!daftarSalah.some(x => x.no === indeks + 1)) {
+      daftarSalah.push({ no: indeks + 1, soal: s.q, jawabAnak: jawabanAnak, kunci: s.b, bahas: 'Perhatikan poin penting pada kunci jawaban.' });
+    }
+    bunyiNada(new Array(350, 280, 210), 0.3, 'sawtooth');
+    bicara('Tidak apa-apa, pelajari lagi ya!');
+  }
+  soalBerikutnya();
 }
 
 function soalBerikutnya() {
