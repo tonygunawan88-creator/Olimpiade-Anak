@@ -733,9 +733,11 @@ function pilihMapel(mapel) {
     wadah.appendChild(btn);
   });
  }
-  function mulaiKuis(namaPaket) {
+  let streakBenar = 0;
+
+function mulaiKuis(namaPaket) {
   daftarSoal = DB[anakAktif][mapelAktif][namaPaket];
-  indeks = 0; skorPG = 0; daftarSalah = [];
+  indeks = 0; skorPG = 0; daftarSalah = []; streakBenar = 0;
   totalPG = daftarSoal.filter(s => s.t === 'pg' || s.t === 'garis').length;
   document.getElementById('menu-paket').classList.add('hidden');
   document.getElementById('area-kuis').classList.remove('hidden');
@@ -851,10 +853,25 @@ function cekPG(pilihan, btnPilih) {
   const st = document.getElementById('status-jawaban'), box = document.getElementById('wadah-pembahasan');
   if (pilihan === s.j) {
     btnPilih.style.background = '#d8f3dc'; btnPilih.style.borderColor = '#06d6a0';
-    st.innerHTML = '<div style="font-size:42px; margin-top:8px;">🎉</div><div class="benar-text">Yeah!! Jawabanmu Betul!</div>';
-    skorPG++; bunyiNada(new Array(523, 659, 784, 1046), 0.25); bicara('Yeah! Betul!');
-    setTimeout(() => { soalBerikutnya(); }, 1300);
+    skorPG++; streakBenar++;
+    var teksPujian = "Yeah!! Jawabanmu Betul!";
+    var suaraPujian = "Yeah! Betul!";
+    var emojiPujian = "🎉";
+    if (streakBenar >= 6) {
+      teksPujian = "Mantap!!! Ini dia calon juara!!";
+      suaraPujian = "Mantap! Ini dia calon juara!";
+      emojiPujian = "🏆🔥";
+    } else if (streakBenar >= 3) {
+      teksPujian = "Waow good job! Hebat!! Kamu luar biasa!!";
+      suaraPujian = "Waow good job! Hebat! Kamu luar biasa!";
+      emojiPujian = "🌟👏";
+    }
+    st.innerHTML = '<div style="font-size:42px; margin-top:8px;">' + emojiPujian + '</div><div class="benar-text">' + teksPujian + '</div>';
+    bunyiNada(new Array(523, 659, 784, 1046), 0.25);
+    bicara(suaraPujian);
+    setTimeout(() => { soalBerikutnya(); }, 1500);
   } else {
+    streakBenar = 0;
     if (!daftarSalah.some(x => x.no === indeks + 1)) {
       daftarSalah.push({ no: indeks + 1, soal: s.q, jawabAnak: s.o[pilihan], kunci: s.o[s.j], bahas: s.b });
     }
