@@ -780,20 +780,27 @@ function tampilkanSoal() {
 }
 
 let pilihKiri = null, jumlahCocok = 0;
+let pilihKiri = null, jumlahCocok = 0;
 function buatSoalGaris(s, wadah) {
   pilihKiri = null; jumlahCocok = 0;
   const kananAcak = [...s.pasang].map((item, idx) => ({ ...item, idAsli: idx })).sort(() => Math.random() - 0.5);
-  wadah.innerHTML = '<div class="match-wrap" id="area-match"><svg class="match-svg" id="svg-garis"></svg><div class="match-col" id="kol-kiri"></div><div class="match-col" id="kol-kanan"></div></div>';
-  const colKiri = document.getElementById('kol-kiri'), colKanan = document.getElementById('kol-kanan');
+  wadah.innerHTML = '<div id="area-match" style="position:relative; display:flex; justify-content:space-between; gap:45px; margin:15px 0;">' +
+    '<svg id="svg-garis" style="position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:10;"></svg>' +
+    '<div id="kol-kiri" style="flex:1; display:flex; flex-direction:column; gap:12px; z-index:2;"></div>' +
+    '<div id="kol-kanan" style="flex:1; display:flex; flex-direction:column; gap:12px; z-index:2;"></div>' +
+    '</div>';
+  const colKiri = document.getElementById('kol-kiri');
+  const colKanan = document.getElementById('kol-kanan');
 
   s.pasang.forEach((item, idx) => {
     const div = document.createElement('div');
     div.className = 'match-box'; div.id = 'kiri-' + idx;
-    div.innerHTML = '<span>' + item.kiri + '</span><span class="titik"></span>';
+    div.style.cssText = 'display:flex; align-items:center; justify-content:space-between; padding:12px; border:2px solid #cbd5e1; border-radius:12px; background:#fff; cursor:pointer; font-size:20px;';
+    div.innerHTML = '<span>' + item.kiri + '</span><span class="titik" style="width:14px; height:14px; border-radius:50%; background:#1e293b; display:inline-block;"></span>';
     div.onclick = () => {
       if (div.classList.contains('cocok')) return;
-      document.querySelectorAll('#kol-kiri .match-box').forEach(el => el.classList.remove('pilih'));
-      div.classList.add('pilih');
+      document.querySelectorAll('#kol-kiri .match-box').forEach(el => { el.classList.remove('pilih'); el.style.borderColor = '#cbd5e1'; });
+      div.classList.add('pilih'); div.style.borderColor = '#3b82f6';
       pilihKiri = { idx, el: div, warna: item.warna };
     };
     colKiri.appendChild(div);
@@ -802,14 +809,15 @@ function buatSoalGaris(s, wadah) {
   kananAcak.forEach(item => {
     const div = document.createElement('div');
     div.className = 'match-box kanan'; div.id = 'kanan-' + item.idAsli;
-    div.innerHTML = '<span>' + item.kanan + '</span><span class="titik"></span>';
+    div.style.cssText = 'display:flex; align-items:center; justify-content:space-between; padding:12px; border:2px solid #cbd5e1; border-radius:12px; background:#fff; cursor:pointer; font-size:22px; font-weight:bold;';
+    div.innerHTML = '<span class="titik" style="width:14px; height:14px; border-radius:50%; background:#1e293b; display:inline-block;"></span><span>' + item.kanan + '</span>';
     div.onclick = () => {
       if (!pilihKiri || div.classList.contains('cocok')) return;
       const st = document.getElementById('status-jawaban');
       if (pilihKiri.idx === item.idAsli) {
         pilihKiri.el.classList.remove('pilih');
-        pilihKiri.el.classList.add('cocok');
-        div.classList.add('cocok');
+        pilihKiri.el.classList.add('cocok'); pilihKiri.el.style.borderColor = '#06d6a0'; pilihKiri.el.style.background = '#d8f3dc';
+        div.classList.add('cocok'); div.style.borderColor = '#06d6a0'; div.style.background = '#d8f3dc';
         gambarGarisSVG(pilihKiri.el, div, pilihKiri.warna);
         bunyiNada(new Array(523, 784), 0.2);
         pilihKiri = null; jumlahCocok++;
@@ -823,25 +831,18 @@ function buatSoalGaris(s, wadah) {
           daftarSalah.push({ no: indeks + 1, soal: s.q, jawabAnak: 'Salah memasangkan garis', kunci: s.b, bahas: s.b });
         }
         bunyiNada(new Array(300, 220), 0.25, 'sawtooth');
-        bicara('Yahhh, coba pasangan lain!');
-        st.innerHTML = '<div class="salah-text">😢 Belum pas, coba ketuk gambar yang jumlahnya sama!</div>';
+        bicara('Yahhh, lebih teliti yuk! Coba pasangan lain!');
+        st.innerHTML = '<div class="salah-text">😢 Belum pas, lebih teliti yuk!</div>';
         setTimeout(() => { if (jumlahCocok < s.pasang.length) st.innerHTML = ''; }, 1200);
       }
     };
     colKanan.appendChild(div);
   });
 }
+
 function gambarGarisSVG(elKiri, elKanan, warna) {
-  const areaWrap = document.getElementById('area-match');
+  const area = document.getElementById('area-match').getBoundingClientRect();
   const svg = document.getElementById('svg-garis');
-  const area = areaWrap.getBoundingClientRect();
-  svg.setAttribute('width', area.width);
-  svg.setAttribute('height', area.height);
-  svg.style.position = 'absolute';
-  svg.style.top = '0';
-  svg.style.left = '0';
-  svg.style.pointerEvents = 'none';
-  svg.style.zIndex = '5';
   const r1 = elKiri.querySelector('.titik').getBoundingClientRect();
   const r2 = elKanan.querySelector('.titik').getBoundingClientRect();
   const line = document.createElementNS('http://w3.org', 'line');
@@ -849,12 +850,12 @@ function gambarGarisSVG(elKiri, elKanan, warna) {
   line.setAttribute('y1', r1.top - area.top + 7);
   line.setAttribute('x2', r2.left - area.left + 7);
   line.setAttribute('y2', r2.top - area.top + 7);
-  line.setAttribute('stroke', warna || '#ef476f');
-  line.setAttribute('stroke-width', '5');
+  line.setAttribute('stroke', warna || '#1e293b');
+  line.setAttribute('stroke-width', '4');
   line.setAttribute('stroke-linecap', 'round');
   svg.appendChild(line);
 }
-
+ 
 function cekPG(pilihan, btnPilih) {
   const s = daftarSoal[indeks];
   document.querySelectorAll('.btn-opt').forEach(b => b.disabled = true);
