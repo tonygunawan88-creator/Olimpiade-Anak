@@ -1183,6 +1183,15 @@ function tampilkanSoal() {
   const badge = document.getElementById('badge-tipe');
   document.getElementById('info-soal').innerText = "Soal " + (indeks + 1) + " / " + daftarSoal.length;
   document.getElementById('teks-soal').innerText = s.q;
+   var wadahGbr = document.getElementById('wadah-gambar-soal');
+  if (!wadahGbr) {
+    wadahGbr = document.createElement('div');
+    wadahGbr.id = 'wadah-gambar-soal';
+    wadahGbr.style.cssText = 'text-align:center; margin:12px 0;';
+    document.getElementById('teks-soal').after(wadahGbr);
+  }
+  wadahGbr.innerHTML = s.svg || '';
+ 
   document.getElementById('status-jawaban').innerHTML = '';
   document.getElementById('wadah-pembahasan').classList.add('hidden');
   document.getElementById('tombol-lanjut').classList.add('hidden');
