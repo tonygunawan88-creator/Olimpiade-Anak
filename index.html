@@ -3495,7 +3495,49 @@ function pilihMapel(mapel) {
  }
 
 let streakBenar = 0, waktuMulai = 0, intervalTimer = null, paketAktif = '';
+function jalankanTimerSD() {
+  if (intervalTimer) clearInterval(intervalTimer);
+  var elTimer = document.getElementById('box-timer-olimpiade');
+  if (!elTimer) {
+    elTimer = document.createElement('div');
+    elTimer.id = 'box-timer-olimpiade';
+    elTimer.style.cssText = 'text-align:right; font-size:14px; font-weight:bold; color:#118ab2; margin-bottom:8px;';
+    var infoSoal = document.getElementById('info-soal');
+    infoSoal.parentNode.insertBefore(elTimer, infoSoal);
+  }
 
+  if (anakAktif === 'SD') {
+    elTimer.style.display = 'block';
+    intervalTimer = setInterval(function() {
+      var dtk = Math.floor((Date.now() - waktuMulai) / 1000);
+      var m = String(Math.floor(dtk / 60)).padStart(2, '0');
+      var s = String(dtk % 60).padStart(2, '0');
+      elTimer.innerText = '⏱️ ' + m + ':' + s + ' / 60:00';
+      elTimer.style.color = (dtk >= 3600) ? '#ef476f' : '#118ab2';
+      if (dtk % 5 === 0) simpanProgresSementara();
+    }, 1000);
+  } else {
+    elTimer.style.display = 'none';
+  }
+}
+
+function simpanProgresSementara() {
+  const progres = {
+    anakAktif: anakAktif,
+    mapelAktif: mapelAktif,
+    paketAktif: paketAktif,
+    indeks: indeks,
+    skorPG: skorPG,
+    totalPG: totalPG,
+    daftarSalah: daftarSalah,
+    detikBerlalu: Math.floor((Date.now() - waktuMulai) / 1000)
+  };
+  localStorage.setItem('progresKuisSementara', JSON.stringify(progres));
+}
+
+function hapusProgresSementara() {
+  localStorage.removeItem('progresKuisSementara');
+    }
 function mulaiKuis(namaPaket) {
   paketAktif = namaPaket;
   daftarSoal = DB[anakAktif][mapelAktif][namaPaket];
@@ -3525,6 +3567,7 @@ function mulaiKuis(namaPaket) {
       var s = String(dtk % 60).padStart(2, '0');
       elTimer.innerText = '⏱️ ' + m + ':' + s + ' / 60:00';
       if (dtk >= 3000) elTimer.style.color = '#ef476f';
+    if (dtk % 5 === 0) simpanProgresSementara();     
     }, 1000);
   } else {
     elTimer.style.display = 'none';
@@ -3731,12 +3774,14 @@ function nilaiEsaiMandiri(isBenar) {
 }
 
 function soalBerikutnya() {
+    simpanProgresSementara();
   indeks++;
   if (indeks < daftarSoal.length) {
     tampilkanSoal();
   } else {
     if (intervalTimer) clearInterval(intervalTimer);
-    document.getElementById('area-kuis').classList.add('hidden');
+    hapusProgresSementara();
+      document.getElementById('area-kuis').classList.add('hidden');
     document.getElementById('area-hasil').classList.remove('hidden');
 
     var totalDetik = Math.floor((Date.now() - waktuMulai) / 1000);
@@ -3843,6 +3888,34 @@ function bukaCatatanBelajar() {
     btn.innerText = '📋 Lihat Catatan Belajar Anak';
     btn.onclick = bukaCatatanBelajar;
     menuAnak.appendChild(btn);
+  }
+})();
+    (function cekProgresTertunda() {
+  const tersimpan = localStorage.getItem('progresKuisSementara');
+  if (tersimpan) {
+    const p = JSON.parse(tersimpan);
+    if (confirm(`Ada latihan ${p.mapelAktif} (${p.paketAktif}) yang belum selesai di soal ke-${p.indeks + 1}. Lanjutkan?`)) {
+      anakAktif = p.anakAktif;
+      mapelAktif = p.mapelAktif;
+      paketAktif = p.paketAktif;
+      daftarSoal = DB[anakAktif][mapelAktif][paketAktif];
+      indeks = p.indeks;
+      skorPG = p.skorPG;
+      totalPG = p.totalPG;
+      daftarSalah = p.daftarSalah;
+
+      document.getElementById('popup-awal').classList.add('hidden');
+      mulaiKuis(paketAktif);
+
+      indeks = p.indeks;
+      skorPG = p.skorPG;
+      totalPG = p.totalPG;
+      daftarSalah = p.daftarSalah;
+      waktuMulai = Date.now() - ((p.detikBerlalu || 0) * 1000);
+      tampilkanSoal();
+    } else {
+      hapusProgresSementara();
+    }
   }
 })();
 </script>
